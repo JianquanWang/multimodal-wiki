@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multimodal AI Guide | 多模态AI指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#0a0a0f;--bg2:#0f0f1a;--card:#13131f;--card2:#1a1a2e;
+  --border:#2a2a3e;--text:#e0e0f0;--text2:#8888aa;--text3:#555566;
+  --accent:#6c8aff;--accent2:#9b6dff;--accent3:#4ecdc4;
+  --green:#4ade80;--yellow:#fbbf24;--red:#f87171;
+  --c1:#6c8aff;--c2:#9b6dff;--c3:#4ecdc4;--c4:#fbbf24;
+  --c5:#f87171;--c6:#fb923c;--c7:#f472b6;--c8:#22d3ee;--c9:#a78bfa;
+  --c10:#34d399;--c11:#f59e0b;--c12:#ec4899;--c13:#8b5cf6;--c14:#14b8a6;
+  --c15:#f97316;--c16:#06b6d4;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
+
+/* ── TOPIC NAV ── */
+.topic-nav{position:sticky;top:0;z-index:300;background:rgba(10,10,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
+.topic-nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;gap:0;}
+.topic-logo{font-size:0.9rem;font-weight:800;color:var(--text);white-space:nowrap;padding-right:20px;border-right:1px solid var(--border);margin-right:16px;flex-shrink:0;}
+.topic-logo span{color:var(--accent);}
+.topic-tabs{display:flex;gap:2px;}
+.topic-tab{padding:14px 18px;font-size:0.82rem;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:transparent;font-family:'Inter',sans-serif;transition:all 0.2s;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.topic-tab:hover{color:var(--text);}
+.topic-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.topic-spacer{flex:1;}
+.lang-wrap{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:3px 5px;flex-shrink:0;}
+.lang-btn{padding:4px 12px;border-radius:16px;border:none;background:transparent;color:var(--text2);font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.lang-btn.active{background:var(--accent);color:#fff;}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,#0f0f1a 0%,var(--bg) 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(108,138,255,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero h1{font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;margin-bottom:10px;}
+.hero h1 .accent{background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{font-size:0.92rem;color:var(--text2);max-width:640px;margin:0 auto 18px;}
+.hero-meta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:0.78rem;color:var(--text3);}
+.hero-meta span{display:flex;align-items:center;gap:5px;}
+
+/* ── SEARCH / FILTER BAR ── */
+.nav-wrap{position:sticky;top:53px;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1300px;margin:0 auto;padding:10px 20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.search-box{flex:1;min-width:180px;position:relative;}
+.search-box input{width:100%;padding:7px 10px 7px 32px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;}
+.search-box input:focus{border-color:var(--accent);}
+.search-box i{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:0.78rem;}
+.bench-filter-indicator{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:0.68rem;color:var(--accent3);display:none;white-space:nowrap;}
+.bench-filter-indicator.active{display:flex;align-items:center;gap:3px;}
+
+.cat-filters{display:flex;gap:4px;flex-wrap:wrap;}
+.cat-btn{padding:4px 11px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:0.75rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.cat-btn:hover{border-color:var(--accent);color:var(--text);}
+.cat-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ── CONTAINER ── */
+.container{max-width:1300px;margin:0 auto;padding:32px 20px 48px;}
+
+/* ── TOC ── */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:28px;}
+.toc h2{font-size:0.8rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;}
+.toc-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:8px;text-decoration:none;color:var(--text);font-size:0.78rem;transition:all 0.2s;border:1px solid transparent;}
+.toc-item:hover{border-color:var(--border);background:var(--card2);}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:44px;}
+.cat-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.cat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.cat-info{flex:1;}
+.cat-title{font-size:1rem;font-weight:700;line-height:1.3;}
+.cat-desc{font-size:0.75rem;color:var(--text2);margin-top:2px;}
+.subtopics{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;}
+.subpill{padding:2px 8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:5px;font-size:0.67rem;color:var(--text3);}
+
+/* ── CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:all 0.22s;display:flex;flex-direction:column;gap:6px;cursor:pointer;}
+.card:hover{border-color:rgba(255,255,255,0.12);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.card-title{font-size:0.84rem;font-weight:700;line-height:1.3;flex:1;}
+.card-badge{font-size:0.63rem;padding:2px 7px;border-radius:16px;font-weight:600;white-space:nowrap;flex-shrink:0;}
+.bg{background:rgba(74,222,128,0.1);color:var(--green);border:1px solid rgba(74,222,128,0.18);}
+.by{background:rgba(251,191,36,0.1);color:var(--yellow);border:1px solid rgba(251,191,36,0.18);}
+.br{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.18);}
+.card-cn{font-size:0.72rem;color:var(--text3);}
+.card-desc{font-size:0.78rem;color:var(--text2);line-height:1.5;flex:1;}
+.card-ref{font-size:0.7rem;color:var(--accent);opacity:0.7;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-hint{font-size:0.66rem;color:var(--text3);display:flex;align-items:center;gap:4px;}
+.card-tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:2px;}
+.ctag{font-size:0.63rem;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.04);color:var(--text3);}
+.hidden{display:none!important;}
+
+/* ── BENCHMARK ── */
+.bench-title{font-size:0.75rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.bench-table{width:100%;border-collapse:collapse;font-size:0.75rem;margin-bottom:4px;}
+.bench-table th{text-align:left;padding:6px 10px;background:rgba(255,255,255,0.04);color:var(--text3);font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);}
+.bench-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--text2);}
+.bench-table tr:last-child td{border-bottom:none;}
+.bench-table td:first-child{color:var(--accent);font-weight:600;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--card2);border:1px solid var(--border);border-radius:18px;max-width:620px;width:100%;max-height:84vh;overflow-y:auto;padding:26px 30px;position:relative;transform:translateY(18px);transition:transform 0.25s;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-close{position:absolute;top:12px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:7px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
+.modal-close:hover{color:var(--text);border-color:var(--accent);}
+.modal-badge{display:inline-block;font-size:0.7rem;padding:2px 10px;border-radius:16px;margin-bottom:10px;}
+.modal-ptitle{font-size:1.15rem;font-weight:800;margin-bottom:2px;line-height:1.3;}
+.modal-pcn{font-size:0.78rem;color:var(--text3);margin-bottom:12px;}
+.modal-div{height:1px;background:var(--border);margin:12px 0;}
+.modal-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:5px;}
+.modal-text{font-size:0.84rem;color:var(--text2);line-height:1.7;margin-bottom:14px;}
+.modal-paper{background:rgba(108,138,255,0.06);border:1px solid rgba(108,138,255,0.14);border-radius:10px;padding:10px 12px;margin-bottom:12px;}
+.modal-pub{display:flex;gap:8px;align-items:flex-start;}
+.modal-picon{color:var(--accent);font-size:0.9rem;margin-top:2px;flex-shrink:0;}
+.modal-pname{font-size:0.82rem;font-weight:600;color:var(--text);font-family:'JetBrains Mono',monospace;line-height:1.4;}
+.modal-pvenue{font-size:0.72rem;color:var(--text3);margin-top:2px;}
+.modal-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:var(--accent);color:#fff;border-radius:9px;text-decoration:none;font-size:0.78rem;font-weight:600;transition:all 0.2s;}
+.modal-btn:hover{background:var(--accent2);transform:translateY(-1px);}
+.modal-tags2{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;}
+.modal-ctag{font-size:0.7rem;padding:2px 8px;border-radius:5px;background:rgba(255,255,255,0.05);color:var(--text3);}
+.modal-related{display:flex;flex-direction:column;gap:5px;margin-top:6px;}
+.modal-rel-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:7px;cursor:pointer;font-size:0.8rem;transition:all 0.2s;}
+.modal-rel-item:hover{border-color:var(--accent);background:rgba(108,138,255,0.06);}
+.modal-rel-title{flex:1;font-weight:600;}
+.modal-rel-badge{font-size:0.63rem;padding:2px 7px;border-radius:12px;flex-shrink:0;}
+.modal-rel-more{font-size:0.75rem;color:var(--text3);text-align:center;padding:4px;cursor:pointer;}
+.modal-rel-more:hover{color:var(--accent);}
+.modal-cross-topics{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+.modal-cross-topic{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:9px;padding:10px 12px;}
+.modal-cross-topic-label{font-size:0.75rem;font-weight:700;color:var(--accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;}
+.modal-cross-item{display:flex;align-items:center;justify-content:space-between;padding:4px 6px;border-radius:5px;cursor:pointer;font-size:0.79rem;transition:all 0.15s;margin-bottom:2px;}
+.modal-cross-item:hover{background:rgba(108,138,255,0.1);}
+.modal-cross-item span:first-child{flex:1;font-weight:600;}
+.modal-cross-badge{font-size:0.62rem;padding:1px 6px;border-radius:10px;flex-shrink:0;}
+
+/* ── BENCHMARKS PAGE ── */
+#benchmarks-page{display:none;}
+#benchmarks-page.active{display:block;}
+.bench-page{margin-top:28px;}
+.bench-page-title{font-size:1.2rem;font-weight:800;margin-bottom:6px;}
+.bench-page-desc{font-size:0.8rem;color:var(--text3);margin-bottom:20px;}
+.bench-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px;}
+.bench-tab{padding:6px 14px;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:0.78rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:500;}
+.bench-tab:hover{border-color:var(--accent);color:var(--text);}
+.bench-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.bench-cat{display:none;}
+.bench-cat.active{display:block;}
+.bar-chart{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-label{flex:0 0 160px;font-size:0.76rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-wrap{flex:1;background:rgba(255,255,255,0.05);border-radius:5px;height:24px;position:relative;overflow:hidden;}
+.bar-fill{height:100%;border-radius:5px;transition:width 0.5s ease;display:flex;align-items:center;padding-left:7px;}
+.bar-fill span{font-size:0.68rem;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);}
+.bar-value{flex:0 0 72px;text-align:right;font-size:0.74rem;color:var(--text2);font-family:'JetBrains Mono',monospace;}
+.bench-source{font-size:0.68rem;color:var(--text3);margin-top:16px;padding-top:10px;border-top:1px solid var(--border);}
+
+/* ── TAGS PAGE ── */
+#tags-page{display:none;}
+#tags-page.active{display:block;}
+.tags-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:24px;}
+.tag-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all 0.22s;}
+.tag-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.tag-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.tag-name{font-size:0.84rem;font-weight:700;}
+.tag-count{padding:2px 9px;border-radius:16px;background:rgba(255,255,255,0.05);color:var(--text3);font-size:0.7rem;font-weight:600;}
+.tag-items{display:flex;flex-wrap:wrap;gap:4px;}
+.tag-item-chip{font-size:0.7rem;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border);}
+.tag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.tag-modal-overlay.open{opacity:1;pointer-events:all;}
+.tag-modal{background:var(--card2);border:1px solid var(--border);border-radius:18px;max-width:540px;width:100%;max-height:76vh;overflow-y:auto;padding:24px 28px;position:relative;transform:translateY(18px);transition:transform 0.25s;}
+.tag-modal-overlay.open .tag-modal{transform:translateY(0);}
+.tag-modal h3{font-size:1.05rem;font-weight:700;margin-bottom:12px;}
+.tag-modal-list{display:flex;flex-direction:column;gap:7px;}
+.tag-modal-item{padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.84rem;transition:all 0.2s;}
+.tag-modal-item:hover{border-color:var(--accent);}
+
+/* ── SUB-TAB NAV (Benchmarks / Tags) ── */
+.subtab-bar{display:flex;gap:4px;margin-bottom:20px;}
+.subtab-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:0.78rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.2s;}
+.subtab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:28px 20px;color:var(--text3);font-size:0.76rem;border-top:1px solid var(--border);margin-top:32px;}
+</style>
+</head>
+<body>
+
+<!-- ── TOPIC NAV ── -->
+<div class="topic-nav">
+  <div class="topic-nav-inner">
+    <div class="topic-logo"><span>MAG</span>.wiki</div>
+    <div class="topic-tabs">
+      <button class="topic-tab active" data-topic="llm">LLM</button>
+      <button class="topic-tab" data-topic="vlm">VLM</button>
+      <button class="topic-tab" data-topic="vla">VLA</button>
+      <button class="topic-tab" data-topic="world">World Models</button>
+    </div>
+    <div class="topic-spacer"></div>
+    <div class="lang-wrap">
+      <button class="lang-btn active" id="langCN">中文</button>
+      <button class="lang-btn" id="langEN">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <h1 id="heroTitle"></h1>
+  <p id="heroDesc"></p>
+  <div class="hero-meta">
+    <span><i class="fas fa-layer-group"></i> <span id="heroCat"></span></span>
+    <span><i class="fas fa-bolt"></i> <span id="heroTech"></span></span>
+    <span><i class="fas fa-file-alt"></i> <span id="heroPapers"></span></span>
+    <span><i class="fas fa-signal"></i> <span id="heroBench"></span></span>
+    <span id="heroFiltered" style="display:none;color:var(--accent3)"><i class="fas fa-filter"></i> <span></span></span>
+  </div>
+</div>
+
+<!-- ── SEARCH / FILTER ── -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="">
+      <div class="bench-filter-indicator" id="benchFilterInd"><i class="fas fa-filter"></i><span></span></div>
+    </div>
+    <div class="cat-filters" id="catFilters"></div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="container">
+  <div class="subtab-bar">
+    <button class="subtab-btn active" data-subtab="main" id="subtabMain"><i class="fas fa-th-large"></i> <span id="subtabMainLabel">技术</span></button>
+    <button class="subtab-btn" data-subtab="bench" id="subtabBench"><i class="fas fa-chart-bar"></i> <span id="subtabBenchLabel">排行榜</span></button>
+    <button class="subtab-btn" data-subtab="tags" id="subtabTags"><i class="fas fa-tags"></i> <span id="subtabTagsLabel">标签</span></button>
+  </div>
+  <div class="toc" id="toc">
+    <h2 id="tocTitle"></h2>
+    <div class="toc-grid" id="tocGrid"></div>
+  </div>
+  <div id="sections"></div>
+  <div id="noResults" style="display:none;text-align:center;padding:60px 20px;color:var(--text3)">
+    <i class="fas fa-search" style="font-size:2rem;margin-bottom:12px;display:block;opacity:0.5"></i>
+    <div style="font-size:1rem;font-weight:600;margin-bottom:6px" id="noResultsText"></div>
+    <div style="font-size:0.8rem" id="noResultsHint"></div>
+  </div>
+
+  <!-- ── BENCHMARKS PAGE ── -->
+  <div id="benchmarks-page">
+    <div class="bench-page-title" id="benchPageTitle"></div>
+    <div class="bench-page-desc" id="benchPageDesc"></div>
+    <div class="bench-tabs" id="benchTabs"></div>
+    <div id="benchContent"></div>
+  </div>
+
+  <!-- ── TAGS PAGE ── -->
+  <div id="tags-page">
+    <div class="bench-page-title"><i class="fas fa-tags" style="color:var(--accent2)"></i> <span id="tagsPageTitle"></span></div>
+    <div class="bench-page-desc" id="tagsPageDesc"></div>
+    <div class="search-box" id="tagSearchBox" style="max-width:400px;margin-bottom:16px">
+      <i class="fas fa-search"></i>
+      <input type="text" id="tagSearchInput" placeholder="" style="background:var(--card)">
+    </div>
+    <div class="tags-grid" id="tagsGrid"></div>
+  </div>
+</div>
+
+<!-- ── BACK TO TOP ── -->
+<button id="backToTop" title="Back to top" style="display:none;position:fixed;bottom:28px;right:28px;width:40px;height:40px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:1rem;cursor:pointer;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:opacity 0.3s;opacity:0.8"><i class="fas fa-arrow-up"></i></button>
+
+<footer>
+  <p id="footerText"></p>
+</footer>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ── TAG MODAL ── -->
+<div class="tag-modal-overlay" id="tagModalOverlay">
+  <div class="tag-modal" id="tagModal">
+    <button class="modal-close" id="tagModalClose" style="position:absolute;top:12px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:7px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;"><i class="fas fa-times"></i></button>
+    <div id="tagModalContent"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// TOPIC DATA
+// ═══════════════════════════════════════════════════════════════════
+
+const TOPICS = {
+  llm: {
+    labelCN:"LLM 训练与推理效率", labelEN:"LLM Training & Inference",
+    heroCN:"大语言模型训练与推理效率全面指南", heroEN:"Comprehensive Guide to LLM Training & Inference Efficiency",
+    footerCN:"整理自 NeurIPS / ICML / ICLR / ACL / EMNLP 等顶会论文",
+    footerEN:"Curated from NeurIPS / ICML / ICLR / ACL / EMNLP papers",
+    cats:[], techs:[], benches:{}
+  },
+  vlm: {
+    labelCN:"视觉-语言模型效率", labelEN:"Vision-Language Model Efficiency",
+    heroCN:"视觉-语言多模态模型训练与推理效率指南", heroEN:"Efficiency Techniques for Vision-Language Models",
+    footerCN:"整理自 CVPR / ICCV / NeurIPS / ICLR 视觉-语言论文",
+    footerEN:"Curated from CVPR / ICCV / NeurIPS / ICLR vision-language papers",
+    cats:[], techs:[], benches:{}
+  },
+  vla: {
+    labelCN:"视觉-语言-动作模型", labelEN:"Vision-Language-Action (Robotics)",
+    heroCN:"机器人VLA模型：操控、导航与模仿学习效率指南", heroEN:"VLA Robotics: Manipulation, Navigation & Imitation Learning",
+    footerCN:"整理自 CoRL / RSS / ICRA / NeurIPS 机器人与操控论文",
+    footerEN:"Curated from CoRL / RSS / ICRA / NeurIPS robotics papers",
+    cats:[], techs:[], benches:{}
+  },
+  world: {
+    labelCN:"世界模型与仿真", labelEN:"World Models & Simulation",
+    heroCN:"世界模型：NeRF / Gaussian / MBRL / 仿真环境指南", heroEN:"World Models: NeRF / Gaussian / MBRL / Simulation",
+    footerCN:"整理自 NeurIPS / ICML / ICLR / CVPR 生成模型与仿真论文",
+    footerEN:"Curated from NeurIPS / ICML / ICLR / CVPR generative & simulation papers",
+    cats:[], techs:[], benches:{}
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// LLM CATEGORIES & TECHNIQUES
+// ═══════════════════════════════════════════════════════════════════
+TOPICS.llm.cats = [
+  {id:1,  labelCN:"注意力机制",     labelEN:"Attention",       color:"var(--c1)", icon:"fa-bolt",
+   subTopics:["Flash Attention","Sparse Attention","GQA/MQA","Ring Attention","Kernel Methods"]},
+  {id:2,  labelCN:"模型量化",        labelEN:"Quantization",     color:"var(--c2)", icon:"fa-compress-alt",
+   subTopics:["GPTQ","AWQ","SpQR","NF4/INT4","BitNet","QAT","ZeroQuant"]},
+  {id:3,  labelCN:"模型压缩",        labelEN:"Model Compression",color:"var(--c3)", icon:"fa-arrows-alt-h",
+   subTopics:["Knowledge Distillation","Pruning","LTH","Weight Sharing"]},
+  {id:4,  labelCN:"参数高效微调",    labelEN:"PEFT",             color:"var(--c4)", icon:"fa-sliders-h",
+   subTopics:["LoRA/QLoRA","Prefix Tuning","P-Tuning","Adapter","IA³"]},
+  {id:5,  labelCN:"显存高效训练",    labelEN:"Memory-Efficient",  color:"var(--c5)", icon:"fa-microchip",
+   subTopics:["Gradient Checkpointing","ZeRO","FSDP","CPU/NVMe Offload"]},
+  {id:6,  labelCN:"训练稳定性",      labelEN:"Training Stability",color:"var(--c6)", icon:"fa-chart-line",
+   subTopics:["Warmup/Cosine LR","AdamW","Mixed Precision","EMA/SWA"]},
+  {id:7,  labelCN:"对齐方法",        labelEN:"Alignment",         color:"var(--c7)", icon:"fa-balance-scale",
+   subTopics:["RLHF","PPO","DPO","SimPO","KTO","RLAIF","Constitutional AI"]},
+  {id:8,  labelCN:"数据效率",        labelEN:"Data Efficiency",   color:"var(--c8)", icon:"fa-database",
+   subTopics:["In-Context Learning","Self-Instruct","Textbook Data","Data Pruning"]},
+  {id:9,  labelCN:"推理优化",        labelEN:"Inference Opt.",   color:"var(--c9)", icon:"fa-tachometer-alt",
+   subTopics:["Speculative Decoding","Continuous Batching","Flash Decoding","KV Cache"]},
+  {id:10, labelCN:"长上下文",        labelEN:"Long Context",      color:"var(--c10)",icon:"fa-arrows-alt-v",
+   subTopics:["RoPE","ALiBi","Ring Attention","StreamingLLM","NTK Scaling","YaRN"]},
+  {id:11, labelCN:"RAG 与知识",      labelEN:"RAG & Knowledge",  color:"var(--c11)",icon:"fa-book-open",
+   subTopics:["Standard RAG","Self-RAG","Corrective RAG","Hybrid Search","Re-Ranking"]},
+  {id:12, labelCN:"稀疏与专家",      labelEN:"Sparse/MoE",        color:"var(--c12)",icon:"fa-project-diagram",
+   subTopics:["Switch Transformer","Mixtral","DeepSeek-MoE","Expert Balancing"]},
+  {id:13, labelCN:"架构创新",        labelEN:"Architecture",      color:"var(--c13)",icon:"fa-puzzle-piece",
+   subTopics:["Mamba/SSM","Hyena/H3","RetNet","RWKV","GLA","Performer"]},
+  {id:14, labelCN:"部署与服务",      labelEN:"Serving",            color:"var(--c14)",icon:"fa-server",
+   subTopics:["vLLM","TensorRT-LLM","TGI","Triton","SGLang","lm-format"]},
+];
+
+TOPICS.llm.techs = [
+  {id:1,name:"Flash Attention",cn:"Flash Attention",
+   desc_cn:"通过IO感知的分块矩阵乘法，实现接近理论上限的attention速度，显存从O(N²)降至O(N)。FA2支持GQA，FA3支持H100 TMA/WGMMA加速。",
+   desc_en:"IO-aware tiled matmul for near-theoretical-peak attention speed. Memory from O(N²) to O(N). FA2 supports GQA; FA3 adds H100 TMA/WGMMA.",
+   paper:"Dao et al., 2022–2024 — Flash Attention 1–3 — arXiv:2205.14135 / 2308.07677 / 2408.00116",
+   arxiv:"https://arxiv.org/abs/2205.14135",badge:"🟡",diff:"Intermediate",categories:[1,5,9],
+   bench:[{m:"FlashAttn-2 A100",metric:"Speedup",ds:"16K seq",v:"2.0x",n:"vs standard attention"},{m:"FlashAttn-3 H100",metric:"Speedup",ds:"1K seq",v:"1.5x",n:"vs FA2"}]},
+  {id:2,name:"Grouped Query Attention (GQA)",cn:"分组查询注意力",
+   desc_cn:"将attention的K/V头数量减少到远少于Q头数量，在保持质量的同时降低显存和计算量。MQA是极端情况（K/V=1），GQA是中间档。",
+   desc_en:"Reduces K/V heads far below Q heads. MQA is extreme (K/V=1); GQA is the practical middle ground. Cuts memory/compute while preserving quality.",
+   paper:"Ainslie et al., 2023 — GQA — ICLR 2024 — arXiv:2305.13245",
+   arxiv:"https://arxiv.org/abs/2305.13245",badge:"🟡",diff:"Intermediate",categories:[1,9],
+   bench:[{m:"GQA 70B",metric:"MMLU",ds:"70B",v:"68.1%",n:"vs 70.2% MHA, 2x faster"}]},
+  {id:3,name:"Ring Attention",cn:"环状注意力",
+   desc_cn:"将序列维度分片到多个设备，每个设备计算局部attention后通过环形通信聚合结果，实现超长序列（>1M token）的分布式训练。",
+   desc_en:"Splits sequence dimension across devices. Each computes local attention then aggregates via ring communication. Enables distributed training for >1M token sequences.",
+   paper:"Liu et al., 2023 — Ring Attention — arXiv:2310.02569",
+   arxiv:"https://arxiv.org/abs/2310.02569",badge:"🔴",diff:"Advanced",categories:[1,10],
+   bench:[{m:"Ring Attn 8xA100",metric:"Seq Length",ds:"8xA100",v:"4M tokens",n:"vs 128K single device"}]},
+  {id:4,name:"Speculative Decoding",cn:"投机解码",
+   desc_cn:"用一个小型draft模型快速生成多个token，再由大模型一次验证。并行解码机制使推理吞吐量提升2-3x且输出分布不变。",
+   desc_en:"Small draft model generates multiple tokens quickly; large model verifies them in parallel. 2-3x throughput gain with identical output distribution.",
+   paper:"Leviathan et al., 2023 — SpecDec — arXiv:2211.17192",
+   arxiv:"https://arxiv.org/abs/2211.17192",badge:"🟡",diff:"Intermediate",categories:[9],
+   bench:[{m:"SpecDec 70B",metric:"Throughput",ds:"A100",v:"2.8x",n:"vs autoregressive decoding"}]},
+  {id:5,name:"LoRA / QLoRA",cn:"LoRA / QLoRA",
+   desc_cn:"低秩适配：冻结预训练权重，注入可训练的秩分解矩阵。QLoRA进一步对权重进行NF4量化，65B模型可在单张A100上微调。",
+   desc_en:"Freezes pretrained weights; injects trainable rank-decomposed matrices. QLoRA adds NF4 quantization — 65B model fine-tuned on single A100.",
+   paper:"Hu et al., 2022 — LoRA — arXiv:2106.09685; Dettmers et al., 2023 — QLoRA — arXiv:2305.13014",
+   arxiv:"https://arxiv.org/abs/2106.09685",badge:"🟢",diff:"Beginner",categories:[4],
+   bench:[{m:"QLoRA 65B",metric:"MMLU",ds:"single A100",v:"63.4%",n:"vs 64.6% full fine-tune"}]},
+  {id:6,name:"Gradient Checkpointing",cn:"梯度检查点",
+   desc_cn:"用计算换显存：只存储部分层的激活值，反向传播时重新计算未存储的激活。典型实现节省~60%显存，额外计算开销~30%。",
+   desc_en:"Trades compute for memory: only stores some layer activations; recomputes others during backprop. ~60% memory saving, ~30% extra compute.",
+   paper:"Chen et al., 2016 — Gradient Checkpointing — arXiv:1604.06174",
+   arxiv:"https://arxiv.org/abs/1604.06174",badge:"🟢",diff:"Beginner",categories:[5],
+   bench:[{m:"Checkpointing",metric:"Memory",ds:"1B model",v:"-60%",n:"vs no checkpointing"}]},
+  {id:7,name:"ZeRO-3 / FSDP",cn:"ZeRO-3 / FSDP",
+   desc_cn:"ZeRO-3将模型参数分片到多GPU，ZeRO-2还分片梯度和优化器状态。FSDP（完全分片数据并行）是PyTorch原生实现，同逻辑。",
+   desc_en:"ZeRO-3 shards model params across GPUs; ZeRO-2 also shards grads+optimizer states. FSDP is PyTorch's native impl of the same concept.",
+   paper:"Rajbhandari et al., 2020 — ZeRO — arXiv:1910.02054; Zhao et al., 2023 — FSDP — arXiv:2304.11277",
+   arxiv:"https://arxiv.org/abs/1910.02054",badge:"🟡",diff:"Intermediate",categories:[5],
+   bench:[{m:"ZeRO-3 8xA100",metric:"Throughput",ds:"7B model",v:"7.1x",n:"vs single A100"}]},
+  {id:8,name:"DPO (Direct Preference Optimization)",cn:"DPO 直接偏好优化",
+   desc_cn:"绕过reward model直接用人类偏好数据优化policy，简化RLHF流程。在HH-RLHF上与PPO相当但实现简单一个数量级。",
+   desc_en:"Skips reward model; optimizes policy directly with human preference data. Matches PPO on HH-RLHF with far simpler implementation.",
+   paper:"Rafailov et al., 2023 — DPO — arXiv:2305.18290",
+   arxiv:"https://arxiv.org/abs/2305.18290",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"DPO 7B",metric:"HH-RLHF Win Rate",ds:"7B",v:"71.2%",n:"vs 72.4% PPO"}]},
+  {id:9,name:"SimPO (Simple Preference Optimization)",cn:"SimPO 简单偏好优化",
+   desc_cn:"DPO的简化版本，移除reference model，利用目标似然比作为偏好损失。训练更稳定，在多项人类偏好评估中优于DPO。",
+   desc_en:"Simplified DPO removing the reference model. Uses target likelihood ratio as preference loss. More stable training, outperforms DPO on human preference benchmarks.",
+   paper:"Meng et al., 2024 — SimPO — arXiv:2405.14734",
+   arxiv:"https://arxiv.org/abs/2405.14734",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"SimPO 8B",metric:"AlpacaEval WinRate",ds:"8B",v:"70.4%",n:"vs 66.9% DPO"}]},
+  {id:10,name:"Long Context: RoPE + NTK",cn:"长上下文: RoPE + NTK缩放",
+   desc_cn:"RoPE旋转位置编码配合神经正切核(NTK)感知缩放，无需微调即可将上下文扩展2-4倍。SGLang/FastChat使用此方法。",
+   desc_en:"RoPE positional encoding with NTK-aware scaling extends context 2-4x without fine-tuning. Used by SGLang and FastChat.",
+   paper:"bloc97, 2023 — NTK-Aware Scaling — blog; Peng et al., 2024 — YaRN — arXiv:2403.00020",
+   arxiv:"https://arxiv.org/abs/2308.10830",badge:"🟢",diff:"Beginner",categories:[10],
+   bench:[{m:"NTK-Aware 7B",metric:"Passkey 32K",ds:"32K ctx",v:"95.2%",n:"vs 67.8% naive"}]},
+  {id:11,name:"vLLM (PagedAttention)",cn:"vLLM PagedAttention推理",
+   desc_cn:"通过分页管理KV cache将吞吐量提升24x（相比HuggingFace），支持Continuous Batching和prefix caching。Opendallm/PagedAttention核心思想。",
+   desc_en:"Paged KV cache management boosts throughput 24x over HuggingFace. Supports Continuous Batching and prefix caching.",
+   paper:"Kwon et al., 2023 — vLLM — arXiv:2309.06180",
+   arxiv:"https://arxiv.org/abs/2309.06180",badge:"🟡",diff:"Intermediate",categories:[14,9],
+   bench:[{m:"vLLM A100",metric:"Throughput",ds:"A100",v:"24x HF",n:"LLM 70B throughput"}]},
+  {id:12,name:"Self-RAG",cn:"Self-RAG 自我反思RAG",
+   desc_cn:"模型在生成中插入reflection tokens评估检索必要性、文档相关性和生成事实性。端到端训练，生成即带自我验证。",
+   desc_en:"Model inserts reflection tokens to judge retrieval need, document relevance, and factual consistency. End-to-end trained with self-verification.",
+   paper:"Asai et al., 2023 — Self-RAG — arXiv:2312.05984",
+   arxiv:"https://arxiv.org/abs/2312.05984",badge:"🟡",diff:"Intermediate",categories:[11],
+   bench:[{m:"Self-RAG 7B",metric:"TriviaQA",ds:"RAG",v:"74.6%",n:"vs 72.3% vanilla RAG"}]},
+  {id:13,name:"Mamba / SSM",cn:"Mamba 状态空间模型",
+   desc_cn:"选择性SSM通过输入依赖的动态路由解决Transformer的O(N²)问题。线性推理复杂度同时保持对长距离依赖的建模能力。",
+   desc_en:"Selective SSM with input-dependent routing solves Transformer's O(N²) problem. Linear inference with long-range dependency modeling.",
+   paper:"Gu & Dao, 2023 — Mamba — arXiv:2312.00752",
+   arxiv:"https://arxiv.org/abs/2312.00752",badge:"🟡",diff:"Intermediate",categories:[13,10],
+   bench:[{m:"Mamba-2.8B",metric:"MMLU",ds:"2.8B",v:"66.2%",n:"vs 60.8% Mamba-1.3B"}]},
+  {id:14,name:"Switch Transformer / MoE",cn:"Switch Transformer / MoE稀疏专家",
+   desc_cn:"每层仅激活少数expert，1T参数模型每次前向仅激活~2%。同等计算量下效果远超dense模型。",
+   desc_en:"Each layer activates only a few experts. 1T params but ~2% active per forward. Outperforms dense at equal compute.",
+   paper:"Fedus et al., 2022 — Switch Transformers — arXiv:2101.03961",
+   arxiv:"https://arxiv.org/abs/2101.03961",badge:"🔴",diff:"Advanced",categories:[12],
+   bench:[{m:"Switch-C 1T",metric:"SuperGLUE",ds:"1T",v:"90.0%",n:"vs 89.8% dense T5-XXL"}]},
+  {id:15,name:"Mixtral 8x7B",cn:"Mixtral 8x7B 稀疏专家",
+   desc_cn:"每个token激活2/8个expert，46B参数仅12B活跃计算量。每FLOP效率远超LLaMA-2 70B。",
+   desc_en:"Each token activates 2/8 experts. 46B params, 12B active compute. Far better per-FLOP efficiency than LLaMA-2 70B.",
+   paper:"Jiang et al., 2024 — Mixtral — arXiv:2401.04088",
+   arxiv:"https://arxiv.org/abs/2401.04088",badge:"🟡",diff:"Intermediate",categories:[12],
+   bench:[{m:"Mixtral 8x7B",metric:"MMLU",ds:"8x7B",v:"70.6%",n:"vs 69.9% LLaMA-2 70B"}]},
+  {id:16,name:"GPTQ / AWQ Quantization",cn:"GPTQ / AWQ 量化",
+   desc_cn:"GPTQ使用近端牛顿方向实现4-bit PTQ，AWQ通过activation-aware权重选择显著减少量化误差。W4A16是LLM推理的主流格式。",
+   desc_en:"GPTQ uses approximate Newton direction for 4-bit PTQ. AWQ uses activation-aware weight selection to reduce quantization error. W4A16 is mainstream for LLM inference.",
+   paper:"Frantar et al., 2023 — GPTQ — arXiv:2210.17323; Lin et al., 2024 — AWQ — arXiv:2306.00978",
+   arxiv:"https://arxiv.org/abs/2210.17323",badge:"🟡",diff:"Intermediate",categories:[2],
+   bench:[{m:"AWQ 70B",metric:"MMLU",ds:"W4A16",v:"67.8%",n:"vs 68.1% FP16"}]},
+  {id:17,name:"KV Cache Optimization",cn:"KV Cache 优化",
+   desc_cn:"通过cache quantization（PagedAttention / CacheGen）、prefix caching和multi-level cache hierarchy减少KV cache的显存占用和读取延迟。",
+   desc_en:"Cache quantization (PagedAttention/CacheGen), prefix caching, and multi-level hierarchies reduce KV cache memory and latency.",
+   paper:"Zheng et al., 2023 — CacheGen — arXiv:2312.05558",
+   arxiv:"https://arxiv.org/abs/2312.05558",badge:"🟡",diff:"Intermediate",categories:[9],
+   bench:[{m:"CacheGen",metric:"KV Cache Speed",ds:"16K ctx",v:"3.1x",n:"vs KV cache disabled"}]},
+  {id:18,name:"Continuous Batching",cn:"Continuous Batching动态批处理",
+   desc_cn:"在token级而非request级调度batch，新请求可在其他请求完成时立即插入。有效利用GPU使throughput提升2-5x。",
+   desc_en:"Schedules at token-level, not request-level. New requests slot in as others complete. 2-5x throughput improvement via better GPU utilization.",
+   paper:"Yu et al., 2022 — Orca — arXiv:2201.12421",
+   arxiv:"https://arxiv.org/abs/2201.12421",badge:"🟡",diff:"Intermediate",categories:[9,14],
+   bench:[{m:"Cont. Batching",metric:"Throughput",ds:"A100",v:"3.8x",n:"vs static batching"}]},
+  {id:19,name:"RLAIF (RL from AI Feedback)",cn:"RLAIF AI反馈强化学习",
+   desc_cn:"用大语言模型代替人类生成偏好标签，避免人工标注成本。偏好模型自我改进形成闭环。",
+   desc_en:"Uses LLM to generate preference labels instead of humans. Self-improving feedback loop without human annotation cost.",
+   paper:"Bai et al., 2022 — RLAIF — Anthropic — arXiv:2212.08073",
+   arxiv:"https://arxiv.org/abs/2212.08073",badge:"🟡",diff:"Intermediate",categories:[7,8],
+   bench:[{m:"RLAIF",metric:"HH-RLHF Win Rate",ds:"HH",v:"71.2%",n:"vs 72.4% human RLHF"}]},
+  {id:20,name:"KTO (Kahneman-Tversky Optimization)",cn:"KTO 卡尼曼-特沃斯基优化",
+   desc_cn:"基于前景理论的单边损失，不使用pairwise比较。模型同时学习正负样本，损失函数更对称稳定。",
+   desc_en:"Prospect-theory-based single-sided loss. No pairwise comparisons; learns from positive and negative examples with symmetric, stable loss.",
+   paper:"Ethayarajh et al., 2024 — KTO — arXiv:2403.05535",
+   arxiv:"https://arxiv.org/abs/2403.05535",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"KTO",metric:"TLDR Pref",ds:"TLDR",v:"57.2%",n:"vs 56.8% DPO"}]},
+];
+
+TOPICS.llm.benches = {
+  1:{titleCN:"注意力机制",titleEN:"Attention",metricCN:"相对加速比",metricEN:"Relative Speedup",
+     unit:"x",higherBetter:true,items:[
+     {name:"FlashAttention-3",val:3.0,color:"var(--accent3)",note:"H100 TMA/WGMMA"},
+     {name:"Flash Decoding++",val:2.5,color:"var(--accent)",note:"HBM3"},
+     {name:"FlashAttention-2",val:2.0,color:"var(--c6)",note:"A100 80GB"},
+     {name:"Flash Attention",val:1.8,color:"var(--c2)",note:"IO-aware tiling"},
+    ]},
+  7:{titleCN:"对齐方法",titleEN:"Alignment",metricCN:"人类偏好胜率",metricEN:"Human Preference Win Rate",
+     unit:"%",higherBetter:true,items:[
+     {name:"Constitutional AI",val:89.3,color:"var(--accent2)",note:"Harmlessness score"},
+     {name:"PPO",val:72.4,color:"var(--green)",note:"HH-RLHF"},
+     {name:"RLAIF",val:71.2,color:"var(--c7)",note:"AI feedback"},
+     {name:"DPO",val:71.2,color:"var(--accent)",note:"HH-RLHF"},
+     {name:"SimPO",val:70.4,color:"var(--c6)",note:"AlpacaEval"},
+     {name:"KTO",val:57.2,color:"var(--c8)",note:"TLDR preference"},
+    ]},
+  12:{titleCN:"稀疏专家",titleEN:"Sparse/MoE",metricCN:"MMLU得分",metricEN:"MMLU Score",
+      unit:"%",higherBetter:true,items:[
+      {name:"DeepSeek-V2",val:78.5,color:"var(--accent2)",note:"236B total"},
+      {name:"Mixtral 8x7B",val:70.6,color:"var(--accent)",note:"12B active"},
+      {name:"Switch-C 1T",val:90.0,color:"var(--green)",note:"SuperGLUE 1T params"},
+    ]},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// VLM CATEGORIES & TECHNIQUES
+// ═══════════════════════════════════════════════════════════════════
+TOPICS.vlm.cats = [
+  {id:1, labelCN:"视觉编码效率",    labelEN:"Vision Encoding",     color:"var(--c1)", icon:"fa-eye",
+   subTopics:["ViT Efficiency","Patch Pruning","Early Exiting","Dynamic Resolution"]},
+  {id:2, labelCN:"多模态融合",      labelEN:"Multimodal Fusion",   color:"var(--c2)", icon:"fa-link",
+   subTopics:["CLIP-style","LLaMA-style","Cross Attention","Flamingo GATED"]},
+  {id:3, labelCN:"VLM训练效率",     labelEN:"VLM Training",        color:"var(--c3)", icon:"fa-brain",
+   subTopics:["Pre-training Data","LCM","Grounding","Screen Understanding"]},
+  {id:4, labelCN:"VLM推理优化",     labelEN:"VLM Inference",       color:"var(--c4)", icon:"fa-tachometer-alt",
+   subTopics:["Quantization","Pruning","Speculative Decoding","Early Exit"]},
+  {id:5, labelCN:"视觉-语言对齐",   labelEN:"Vision-Language Align",color:"var(--c5)", icon:"fa-balance-scale",
+   subTopics:["Contrastive Learning","Region Understanding","Captioning","VQA"]},
+  {id:6, labelCN:"图像生成效率",    labelEN:"Image Generation",    color:"var(--c6)", icon:"fa-image",
+   subTopics:["Diffusion LM","Latent Diffusion","LCM","SDXL-Turbo"]},
+  {id:7, labelCN:"视频理解效率",     labelEN:"Video Understanding", color:"var(--c7)", icon:"fa-video",
+   subTopics:["SlowFast","TimeSformer","Video Token Sampling","Frozen CLIP"]},
+  {id:8, labelCN:"Benchmark",       labelEN:"Benchmarks",           color:"var(--c8)", icon:"fa-chart-bar",
+   subTopics:["VQAv2","GQA","RefCOCO","OK-VQA","VQAT"]},
+];
+
+TOPICS.vlm.techs = [
+  {id:101,name:"LLaVA (Large Language & Vision Assistant)",cn:"LLaVA 大型视觉-语言助手",
+   desc_cn:"开源VLM标杆，LLaMA+Vicuna作为语言 backbone，CLIP ViT作为视觉encoder，通过projection layer连接。在 8xA100 上完成训练，仅用 1.2M 数据。",
+   desc_en:"Open-source VLM benchmark. LLaMA/Vicuna as language backbone + CLIP ViT as vision encoder via projection layer. Trained on 8xA100 with only 1.2M data.",
+   paper:"Liu et al., 2024 — LLaVA — NeurIPS 2024 — arXiv:2304.08485",
+   arxiv:"https://arxiv.org/abs/2304.08485",badge:"🟡",diff:"Intermediate",categories:[2,3],
+   bench:[{m:"LLaVA-1.5 13B",metric:"VQAv2",ds:"13B",v:"82.0%",n:"vs 80.8% GPT-4V (zero-shot)"}]},
+  {id:102,name:"LLaVA-1.5 / 1.6 / NeXT",cn:"LLaVA-1.5 / 1.6 / NeXT",
+   desc_cn:"LLaVA迭代版本，1.5引入跨模态注意力（不再仅mlp projection），1.6支持128K上下文和更好的OCR。NeXT在指令跟随和多轮对话上大幅提升。",
+   desc_en:"LLaVA iterations. 1.5 adds cross-attention (not just MLP projection). 1.6 supports 128K context and better OCR. NeXT improves instruction following and multi-turn.",
+   paper:"Li et al., 2024 — LLaVA-1.5 — arXiv:2310.03744; 2024 — LLaVA-NeXT",
+   arxiv:"https://arxiv.org/abs/2310.03744",badge:"🟡",diff:"Intermediate",categories:[2,3,5],
+   bench:[{m:"LLaVA-NeXT 34B",metric:"MMMU",ds:"34B",v:"65.2%",n:"vs 56.8% LLaVA-1.5"}]},
+  {id:103,name:"Qwen-VL / Qwen2-VL",cn:"Qwen-VL / Qwen2-VL",
+   desc_cn:"阿里巴巴开源VLM系列。Qwen2-VL支持动态分辨率（无论图像尺寸切分为不同的token数），在DocVQA和ChartQA上刷新开源SOTA。",
+   desc_en:"Alibaba's open-source VLM series. Qwen2-VL supports dynamic resolution (variable token count regardless of image size), sets new开源 SOTA on DocVQA and ChartQA.",
+   paper:"Bai et al., 2023 — Qwen-VL — arXiv:2308.12966; Qwen Team, 2024 — Qwen2-VL",
+   arxiv:"https://arxiv.org/abs/2308.12966",badge:"🟡",diff:"Intermediate",categories:[2,3],
+   bench:[{m:"Qwen2-VL 72B",metric:"DocVQA",ds:"72B",v:"94.5%",n:"opensource SOTA"}]},
+  {id:104,name:"InternVL (1 / 2 / 3)",cn:"InternVL 视觉大模型",
+   desc_cn:"上海AI Lab开源最强开源VLM之一。Progressive Calibration训练模式（从小模型到大模型逐步释放参数），InternVL3引入MLLM-Freeze+CoFi技术。",
+   desc_en:"One of the strongest open-source VLMs from Shanghai AI Lab. Progressive Calibration (small→large gradually unfreezes params). InternVL3 adds MLLM-Freeze+CoFi.",
+   paper:"Chen et al., 2024 — InternVL — arXiv:2312.12086; 2025 — InternVL3",
+   arxiv:"https://arxiv.org/abs/2312.12086",badge:"🟡",diff:"Intermediate",categories:[2,3],
+   bench:[{m:"InternVL3 78B",metric:"VQAv2",ds:"78B",v:"85.1%",n:"vs 82.0% LLaVA-1.5"}]},
+  {id:105,name:"BLIP-2 / INSTRUCTBLIP",cn:"BLIP-2 / INSTRUCTBLIP",
+   desc_cn:"通过轻量级Q-Former实现冻住视觉编码器和LLM之间的高效对齐。BLIP-2用coco captions + LAION训练，InstructBLIP在指令微调后支持开放域多模态指令。",
+   desc_en:"Lightweight Q-Former aligns frozen vision encoder and LLM. BLIP-2 trained on COCO captions + LAION. InstructBLIP adds instruction fine-tuning for open-domain multimodal instructions.",
+   paper:"Li et al., 3/2023 — BLIP-2 — arXiv:2301.12597; 2023 — InstructBLIP",
+   arxiv:"https://arxiv.org/abs/2301.12597",badge:"🟡",diff:"Intermediate",categories:[2,5],
+   bench:[{m:"InstructBLIP 13B",metric:"VQAv2",ds:"13B",v:"80.7%",n:"vs 77.4% Flamingo"}]},
+  {id:106,name:"Flamingo / OpenFlamingo",cn:"Flamingo 门控注意力VLM",
+   desc_cn:"DeepMind的原始门控注意力VLM，冻住视觉编码器和语言模型，中间插入门控注意力层实现少样本学习。OpenFlamingo是开源复现。",
+   desc_en:"DeepMind's original gated attention VLM. Frozen vision + language models with gated attention layers in between for few-shot learning. OpenFlamingo is open-source reproduction.",
+   paper:"Alayrac et al., 2022 — Flamingo — arXiv:2204.14198",
+   arxiv:"https://arxiv.org/abs/2204.14198",badge:"🔴",diff:"Advanced",categories:[2,8],
+   bench:[{m:"Flamingo 80B",metric:"Few-shot VQAv2",ds:"80B",v:"82.0%",n:"vs 77.4% few-shot"}]},
+  {id:107,name:"CLIP / OpenCLIP",cn:"CLIP 对比语言-图像预训练",
+   desc_cn:"用4亿图文对通过对比学习实现开放词汇视觉分类。OpenCLIP用更大数据训练，在ImageNet上超过原生CLIP。ViT-L/14是常用backbone。",
+   desc_en:"400M image-text pairs trained with contrastive learning for open-vocabulary visual classification. OpenCLIP trained on larger data, beats native CLIP on ImageNet.",
+   paper:"Radford et al., 2021 — CLIP — arXiv:2103.00020",
+   arxiv:"https://arxiv.org/abs/2103.00020",badge:"🟢",diff:"Beginner",categories:[5],
+   bench:[{m:"CLIP ViT-L/14",metric:"ImageNet ZS",ds:"ViT-L",v:"75.3%",n:"zero-shot ImageNet"}]},
+  {id:108,name:"GLIPv1 / GLIPv2",cn:"GLIP grounded VL理解",
+   desc_cn:"Grounded Language-Image Pre-training，将目标检测和语言理解统一在VL框架下。GLIPv2引入语义增强自训练，在COCO上刷到58.7% box AP。",
+   desc_en:"Grounded Language-Image Pre-training unifies object detection and language understanding. GLIPv2 adds semantic augmentation + self-training, 58.7% box AP on COCO.",
+   paper:"Li et al., 2021 — GLIP — arXiv:2112.00171; 2022 — GLIPv2",
+   arxiv:"https://arxiv.org/abs/2112.00171",badge:"🟡",diff:"Intermediate",categories:[5,3],
+   bench:[{m:"GLIPv2 59B",metric:"COCO box AP",ds:"59B",v:"58.7%",n:"COCO 2017 val"}]},
+  {id:109,name:"Grounding DINO / Grounding SAM",cn:"Grounding DINO / SAM",
+   desc_cn:"开集目标检测（SOTA），DINO+MGD（最大语义的等变匹配）实现给定文本框任意物体。Grounding SAM结合SAM实现分割+检测统一。",
+   desc_en:"Open-set object detection SOTA. DINO + MGD (Maximum Semantic Equivariant Matching) detects any object given text. Grounding SAM combines with SAM for unified detection+segmentation.",
+   paper:"Liu et al., 2023 — Grounding DINO — arXiv:2303.05499; 2023 — Grounding SAM",
+   arxiv:"https://arxiv.org/abs/2303.05499",badge:"🟡",diff:"Intermediate",categories:[5],
+   bench:[{m:"Grounding DINO T",metric:"COCO mAP",ds:"T",v:"53.9%",n:"zero-shot COCO"}]},
+  {id:110,name:"Latent Diffusion Models (LDM)",cn:"潜在扩散模型 LDM",
+   desc_cn:"在VAE latent space而非像素空间做diffusion，大幅降低计算量。Stable Diffusion的核心技术。SDXL通过双路骨干网和更好的conditioning进一步提升。",
+   desc_en:"Diffusion in VAE latent space instead of pixel space. Massive compute reduction. Core of Stable Diffusion. SDXL improves with two-scale backbone and better conditioning.",
+   paper:"Rombach et al., 2022 — LDM — CVPR 2022 — arXiv:2112.10752",
+   arxiv:"https://arxiv.org/abs/2112.10752",badge:"🟡",diff:"Intermediate",categories:[6],
+   bench:[{m:"SDXL",metric:"FID",ds:"512px",v:"23.9",n:"vs 34.9 SD 1.5"}]},
+  {id:111,name:"LCM (Latent Consistency Models)",cn:"LCM 潜在一致性模型",
+   desc_cn:"蒸馏一致性模型到4步生成，大幅加速SD/LDMs的采样过程。SD-Turbo/Lucid Rift实现单步~2步推理，实时图像生成。",
+   desc_en:"Distills consistency models to 4-step generation. Dramatically accelerates SD/LDM sampling. SD-Turbo/Lucid Rift enable 1-2 step inference for real-time image generation.",
+   paper:"Luo et al., 2023 — LCM — arXiv:2310.04378",
+   arxiv:"https://arxiv.org/abs/2310.04378",badge:"🟡",diff:"Intermediate",categories:[6],
+   bench:[{m:"LCM SD-Turbo",metric:"Steps",ds:"512px",v:"1 step",n:"vs 25 steps SD 1.5"}]},
+  {id:112,name:"Dynamic ViT / Token Merging",cn:"Dynamic ViT / Token合并",
+   desc_cn:"通过轻量级routing机制或token merging减少ViT中的冗余visual tokens。Dynamic ViT预测每个token的重要性并丢弃不重要token；ToMe自动合并相似的token。",
+   desc_en:"Reduces redundant visual tokens in ViT via lightweight routing or token merging. Dynamic ViT predicts token importance and drops unimportant ones; ToMe auto-merges similar tokens.",
+   paper:"Rao et al., 2022 — Dynamic ViT — arXiv:2203.13427; Bolya et al., 2023 — ToMe — ICCV 2023",
+   arxiv:"https://arxiv.org/abs/2203.13427",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"Dynamic ViT-H",metric:"FLOPs",ds:"ViT-H",v:"-40%",n:"vs ViT-H full tokens"}]},
+  {id:113,name:"Svit (Swin Transformer ViT)",cn:"Swin Transformer V2",
+   desc_cn:"Swin V2通过shifted window attention解决Swin V1的固定窗口限制，支持更高分辨率和更大的各向异性。节省~50%训练显存。",
+   desc_en:"Swin V2 solves V1's fixed window limits with shifted window attention, supporting higher resolution and larger anisotropy. Saves ~50% training memory.",
+   paper:"Liu et al., 2021 — Swin Transformer V2 — arXiv:2111.12993",
+   arxiv:"https://arxiv.org/abs/2111.12993",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"SwinV2-L",metric:"ImageNet",ds:"384px",v:"90.2%",n:"vs 89.8% SwinV1-L"}]},
+  {id:114,name:"TimeSformer / SlowFast",cn:"TimeSformer / SlowFast 视频",
+   desc_cn:"TimeSformer将Transformer应用于时空注意力（divided space-time attention），SlowFast用双路网络分别捕捉短时精细动作和长时语义。高效版FastSlow推出。",
+   desc_en:"TimeSformer applies Transformer to space-time attention (divided space-time attention). SlowFast uses dual pathway for fine temporal and semantic features. Efficient FastSlow variants exist.",
+   paper:"Bertasius et al., 2021 — TimeSformer — arXiv:2103.15691; Feichtenhofer et al., 2019 — SlowFast",
+   arxiv:"https://arxiv.org/abs/2103.15691",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"SlowFast 8x8 R101",metric:"Kinetics-400",ds:"8x8 R101",v:"82.3%",n:"K400 val"}]},
+  {id:115,name:"VLM Quantization (VLLM-VLM / LLaVA.cpp)",cn:"VLM 量化推理",
+   desc_cn:"对VLM的LLM部分（语言部分）做INT4/INT8量化，视觉encoder部分通常保持FP16以避免精度损失。LLaVA.cpp实现在边缘设备上运行7B VLM。",
+   desc_en:"Quantizes LLM component (language part) of VLM to INT4/INT8. Vision encoder typically stays FP16 to avoid quality loss. LLaVA.cpp enables 7B VLM on edge devices.",
+   paper:"Zhang et al., 2024 — VLLM-VLM — arXiv:2405.18081",
+   arxiv:"https://arxiv.org/abs/2405.18081",badge:"🟢",diff:"Beginner",categories:[4],
+   bench:[{m:"LLaVA-7B Q4",metric:"Memory",ds:"7B",v:"4.2GB",n:"vs 14GB FP16"}]},
+  {id:116,name:"Gemini / GPT-4V Architecture Insights",cn:"Gemini / GPT-4V 架构洞察",
+   desc_cn:"Gemini原生多模态（不是拼凑），使用Pathways架构并行处理文本、图像、音频、视频。注意力在token-level统一，训练效率比单独模型高~10x。",
+   desc_en:"Gemini is natively multimodal (not stitched). Uses Pathways architecture to process text/image/audio/video in parallel. Unified token-level attention, ~10x more training efficient.",
+   paper:"Gemini Team, 2023 — Gemini — Google AI Blog; OpenAI — GPT-4V System Card",
+   arxiv:"",badge:"🔴",diff:"Advanced",categories:[2,3],
+   bench:[{m:"Gemini Ultra",metric:"MMLU",ds:"Ultra",v:"90.0%",n:"5-shot MMLU"}]},
+  {id:117,name:"MiniGPT-4 / MiniGPT-v2",cn:"MiniGPT-4 / MiniGPT-v2",
+   desc_cn:"仅用一个投影层将冻结的视觉编码器连接到冻结的LLaMA，训练成本极低。v2进一步引入词汇表扩展和视觉专家微调，支持128K上下文。",
+   desc_en:"Connects frozen vision encoder to frozen LLaMA with just one projection layer. Extremely low training cost. v2 adds vocabulary expansion and visual expert fine-tuning for 128K context.",
+   paper:"Zhu et al., 2023 — MiniGPT-4 — arXiv:2305.15072; Chen et al., 2023 — MiniGPT-v2 — arXiv:2310.09478",
+   arxiv:"https://arxiv.org/abs/2305.15072",badge:"🟢",diff:"Beginner",categories:[2,3],
+   bench:[{m:"MiniGPT-4 7B",metric:"COCO Caption",ds:"7B",v:"77.4%",n:"BLEU-4 captioning"}]},
+  {id:118,name:"CogVLM (Sophgo)",cn:"CogVLM 视觉-语言融合",
+   desc_cn:"通过深层注意力实现视觉token和语言token的深度融合，而非仅在输入层投影。训练时视觉和语言参数同时更新，深度融合使多模态理解能力大幅提升。",
+   desc_en:"Deep fusion of vision and language tokens via deep attention — not just input-layer projection. Both vision and language params updated during training. Deep fusion dramatically improves multimodal understanding.",
+   paper:"Wang et al., 2023 — CogVLM — arXiv:2311.03079",
+   arxiv:"https://arxiv.org/abs/2311.03079",badge:"🟡",diff:"Intermediate",categories:[2,3],
+   bench:[{m:"CogVLM-17B",metric:"VQAv2",ds:"17B",v:"84.2%",n:"architecture-level fusion"}]},
+  {id:119,name:"Prismatic VLM (SUN)",cn:"Prismatic VLM 多视觉编码器",
+   desc_cn:"支持多个视觉编码器（SigLIP / DINOv2 / SigLIP+SAM）组合使用，通过mean pooling实现late fusion。LLaVA和OpenVLA的backbone。",
+   desc_en:"Supports multiple vision encoders (SigLIP / DINOv2 / SigLIP+SAM) combined via mean pooling for late fusion. Backbone of LLaVA and OpenVLA.",
+   paper:"Karamcheti et al., 2024 — Prismatic VLM — arXiv:2405.17398",
+   arxiv:"https://arxiv.org/abs/2405.17398",badge:"🟡",diff:"Intermediate",categories:[1,2],
+   bench:[{m:"Prismatic 7B",metric:"GQA",ds:"7B",v:"85.2%",n:"multi-encoder fusion"}]},
+  {id:120,name:"VILA (LVM for VLM)",cn:"VILA 视觉语言模型预训练",
+   desc_cn:"LVM思想应用于VLM，通过image token reconstruction + language modeling联合训练。v1支持8B/13B/33B，v2引入更强的in-context learning和多图像推理。",
+   desc_en:"LVM ideas applied to VLM. Jointly trains image token reconstruction + language modeling. v1 supports 8B/13B/33B; v2 adds stronger in-context learning and multi-image reasoning.",
+   paper:"Lin et al., 2024 — VILA — arXiv:2402.18630",
+   arxiv:"https://arxiv.org/abs/2402.18630",badge:"🟡",diff:"Intermediate",categories:[3,5],
+   bench:[{m:"VILA-13B",metric:"OK-VQA",ds:"13B",v:"68.3%",n:"multi-image reasoning"}]},
+  {id:121,name:"Emu3 (Bytedance)",cn:"Emu3 多模态自回归生成",
+   desc_cn:"ByteDance的自回归多模态模型，用OmniFusion解码器统一视觉、语言、音频生成。在视觉生成任务上超越DALL-E 3和Sora。",
+   desc_en:"ByteDance's autoregressive multimodal model. Uses OmniFusion decoder to unify vision, language, audio generation. Surpasses DALL-E 3 and Sora on visual generation tasks.",
+   paper:"Sun et al., 2024 — Emu3 — arXiv:2409.06940",
+   arxiv:"https://arxiv.org/abs/2409.06940",badge:"🔴",diff:"Advanced",categories:[2,6],
+   bench:[{m:"Emu3",metric:"GenEval",ds:"Generative",v:"86%",n:"text-to-image"}]},
+  {id:122,name:"MobileVLM (ONNX Runtime)",cn:"MobileVLM 移动端VLM",
+   desc_cn:"在移动端NPU/边缘GPU上运行的开源VLM，1.4B/1.7B/3B参数。通过知识蒸馏和量化，实现iPhone 14上~30 tok/s的推理速度。",
+   desc_en:"Open-source VLM running on mobile NPU / edge GPU. 1.4B/1.7B/3B params. Via knowledge distillation + quantization achieves ~30 tok/s on iPhone 14.",
+   paper:"Ji et al., 2024 — MobileVLM — arXiv:2312.11286",
+   arxiv:"https://arxiv.org/abs/2312.11286",badge:"🟢",diff:"Beginner",categories:[4],
+   bench:[{m:"MobileVLM-3B",metric:"Speed",ds:"iPhone 14",v:"30 tok/s",n:"edge inference"}]},
+  {id:123,name:"ControlNet (Conditioning)",cn:"ControlNet 条件化图像生成",
+   desc_cn:"通过零卷积层将额外条件（Canny边缘、深度图、骨骼姿态等）注入Stable Diffusion，控制生成图像的几何结构而不损失创造性。",
+   desc_en:"Injects extra conditions (Canny edges, depth maps, skeletal poses) into Stable Diffusion via zero convolutions. Controls geometry without sacrificing creativity.",
+   paper:"Zhang et al., 2023 — ControlNet — CVPR 2023 — arXiv:2302.05543",
+   arxiv:"https://arxiv.org/abs/2302.05543",badge:"🟢",diff:"Beginner",categories:[6],
+   bench:[{m:"ControlNet",metric:"Human Eval",ds:"Canny",v:"91%",n:"pose-to-image"}]},
+  {id:124,name:"CogVideoX (THUDM)",cn:"CogVideoX 视觉-语言视频生成",
+   desc_cn:"国产开源视频生成VLM，将视频内容token化后通过transformer生成。5B参数支持16秒视频，Open-Sora Plan是类似方案。",
+   desc_en:"Chinese open-source video generation VLM. Tokenizes video content then generates via transformer. 5B params supports 16s video. Open-Sora Plan is similar.",
+   paper:"Zhu et al., 2024 — CogVideoX — arXiv:2408.02072",
+   arxiv:"https://arxiv.org/abs/2408.02072",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"CogVideoX-5B",metric:"VBench",ds:"5B",v:"85.3%",n:"16s video gen"}]},
+  {id:125,name:"VideoPoet (Google)",cn:"VideoPoet 视频生成VLM",
+   desc_cn:"Google的多模态视频生成VLM，支持文本/图像/视频到视频的生成。VideoPoet使用large-scale VLM而非diffusion，在视频质量上具有竞争力。",
+   desc_en:"Google's multimodal video generation VLM. Supports text/image/video-to-video generation. Uses large-scale VLM (not diffusion) — competitive video quality.",
+   paper:"K Conditions et al., 2024 — VideoPoet — arXiv:2401.12177",
+   arxiv:"https://arxiv.org/abs/2401.12177",badge:"🔴",diff:"Advanced",categories:[7],
+   bench:[{m:"VideoPoet L",metric:"VBench",ds:"Large",v:"87.2%",n:"text-to-video"}]},
+  {id:126,name:"Stable Diffusion 3 (SD3)",cn:"Stable Diffusion 3 MM-DiT",
+   desc_cn:"MM-DiT架构（多模态Diffusion Transformer），替代UNet成为SD3的核心。参数量2B/5B/8B，通过流匹配（flow matching）训练，在文字渲染和复杂构图上显著超越SDXL。",
+   desc_en:"MM-DiT (Multimodal Diffusion Transformer) architecture replaces UNet in SD3. 2B/5B/8B params. Trained with flow matching. Dramatically better text rendering and complex composition than SDXL.",
+   paper:"Esser et al., 2024 — SD3 — arXiv:2403.03206",
+   arxiv:"https://arxiv.org/abs/2403.03206",badge:"🟡",diff:"Intermediate",categories:[6],
+   bench:[{m:"SD3 8B",metric:"GenEval",ds:"8B",v:"83%",n:"overall text-to-image"}]},
+  {id:127,name:"Video Diffusion Transformers (DiT)",cn:"Video DiT 视频Diffusion Transformer",
+   desc_cn:"将DiT架构扩展到视频生成，用时空分离的注意力机制建模。Open-Sora和Latte是其开源实现，超越GAN-based视频生成方法。",
+   desc_en:"Extends DiT architecture to video generation with space-time separated attention. Open-Sora and Latte are open-source implementations. Surpasses GAN-based video generation.",
+   paper:"卿 et al., 2024 — Video DiT — arXiv:2402.14777",
+   arxiv:"https://arxiv.org/abs/2402.14777",badge:"🟡",diff:"Intermediate",categories:[6,7],
+   bench:[{m:"Open-Sora 72B",metric:"VBench",ds:"72B",v:"89%",n:"text-to-video"}]},
+  {id:128,name:"PixArt-α / σ (T2I DiT)",cn:"PixArt-α / σ 图像DiT",
+   desc_cn:"用DiT替代LDM中的UNet，SD3之前最成功的T2I DiT架构。PixArt-σ进一步引入虎跃注意力机制，FID媲美DALL-E 3但推理速度快~5倍。",
+   desc_en:"DiT replaces UNet in LDM. Most successful T2I DiT before SD3. PixArt-σ adds Cross-Spatial Attention, FID competitive with DALL-E 3 but ~5x faster inference.",
+   paper:"Chen et al., 2024 — PixArt-α — arXiv:2310.00426; 2024 — PixArt-σ",
+   arxiv:"https://arxiv.org/abs/2310.00426",badge:"🟡",diff:"Intermediate",categories:[6],
+   bench:[{m:"PixArt-σ 900M",metric:"MSCOCO FID",ds:"900M",v:"7.6",n:"vs SDXL 23.9"}]},
+  {id:129,name:"Pruned ViT / EViT",cn:"EViT 视觉Transformer剪枝",
+   desc_cn:"Early Exit Vision Transformer，在网络浅层就early exit部分token，减少ViT的计算量。在ImageNet上不掉点情况下减少~40% FLOPs。",
+   desc_en:"Early Exit Vision Transformer. Early layers exit some tokens early, reducing ViT compute. Reduces ~40% FLOPs on ImageNet without accuracy drop.",
+   paper:"Chen et al., 2024 — EViT — arXiv:2401.06567",
+   arxiv:"https://arxiv.org/abs/2401.06567",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"EViT-B/384",metric:"FLOPs",ds:"ImageNet",v:"-40%",n:"vs ViT-B/384"}]},
+  {id:130,name:"Swin-UNETR / UNETR++",cn:"Swin-UNETR / UNETR++ 3D医学影像",
+   desc_cn:"Transformer-based 3D medical image segmentation，U-Net架构中使用Swin Transformer作为encoder。UNETR++引入 Efficient attention和对称decoder，在CT和MRI上超过nnUNet。",
+   desc_en:"Transformer-based 3D medical image segmentation. Uses Swin Transformer as U-Net encoder. UNETR++ adds efficient attention and symmetric decoder. Outperforms nnUNet on CT and MRI.",
+   paper:"Hatamizadeh et al., 2022 — UNETR — arXiv:2103.10504",
+   arxiv:"https://arxiv.org/abs/2103.10504",badge:"🟡",diff:"Intermediate",categories:[1,5],
+   bench:[{m:"UNETR++",metric:"Dice",ds:"BTCV",v:"87.2%",n:"multi-organ CT"}]},
+  {id:131,name:"Stable Video Diffusion (SVD)",cn:"SVD 稳定视频扩散",
+   desc_cn:"Stability AI的开源视频生成基础模型，latent video diffusion架构。提供SVD-1.1（14帧）和SVD-XT（25帧）两个版本，支持image-to-video和text-to-video。",
+   desc_en:"Stability AI's open-source video generation foundation model. Latent video diffusion architecture. SVD-1.1 (14 frames) and SVD-XT (25 frames). Supports image-to-video and text-to-video.",
+   paper:"Blattmann et al., 2023 — SVD — arXiv:2311.15127",
+   arxiv:"https://arxiv.org/abs/2311.15127",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"SVD-XT",metric:"VBench",ds:"image-to-video",v:"78%",n:"24-frame generation"}]},
+  {id:132,name:"LVM (Large Vision Model)",cn:"LVM 视觉大模型",
+   desc_cn:"Stanford的视觉大模型，用visual sentences统一所有视觉任务（检测/分割/跟踪等）。1B参数的纯视觉序列模型，不依赖语言即可在多个VQA任务上达到竞争力水平。",
+   desc_en:"Stanford's Large Vision Model. Uses visual sentences to unify all vision tasks (detection/segmentation/tracking etc.). 1B param pure vision sequence model. Competitive on multiple VQA tasks without language.",
+   paper:"Bai et al., 2023 — LVM — arXiv:2311.17099",
+   arxiv:"https://arxiv.org/abs/2311.17099",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"LVM 1B",metric:"COCO val",ds:"1B",v:"52.3% AP",n:"without language"}]},
+];
+
+TOPICS.vlm.benches = {
+  1:{titleCN:"视觉编码效率",titleEN:"Vision Encoding Efficiency",metricCN:"ImageNet Top-1准确率",metricEN:"ImageNet Top-1 Accuracy",
+     unit:"%",higherBetter:true,items:[
+     {name:"EVA-02-Large",val:89.6,color:"var(--accent)",note:"CLIP ViT-L/14"},
+     {name:"DINOv2 ViT-L/14",val:88.4,color:"var(--accent2)",note:"self-supervised"},
+     {name:"SigLIP ViT-SO400M",val:87.2,color:"var(--c4)",note:"multi-label"},
+     {name:"CLIP ViT-L/14",val:75.3,color:"var(--green)",note:"zero-shot"},
+     {name:"EViT-Large",val:84.1,color:"var(--c6)",note:"-40% FLOPs"},
+    ]},
+  2:{titleCN:"多模态融合",titleEN:"Multimodal Fusion",metricCN:"多模态理解得分",metricEN:"Multimodal Understanding",
+     unit:"%",higherBetter:true,items:[
+     {name:"GPT-4V",val:86.4,color:"var(--accent)",note:"multimodal leaderboard"},
+     {name:"Gemini Ultra",val:85.9,color:"var(--accent2)",note:"MMLU multimodal"},
+     {name:"CogVLM-17B",val:84.2,color:"var(--c4)",note:"architecture fusion"},
+     {name:"LLaVA-NeXT 34B",val:65.2,color:"var(--c6)",note:"MMMU val"},
+     {name:"MiniGPT-4 7B",val:61.2,color:"var(--c8)",note:"open-source budget"},
+    ]},
+  5:{titleCN:"视觉-语言对齐",titleEN:"Vision-Language Alignment",metricCN:"VQAv2准确率",metricEN:"VQAv2 Accuracy",
+     unit:"%",higherBetter:true,items:[
+     {name:"GPT-4V",val:86.4,color:"var(--accent)",note:"few-shot"},
+     {name:"InternVL3 78B",val:85.1,color:"var(--accent2)",note:""},
+     {name:"Qwen2-VL 72B",val:84.6,color:"var(--c4)",note:""},
+     {name:"LLaVA-1.5 13B",val:82.0,color:"var(--green)",note:""},
+     {name:"InstructBLIP 13B",val:80.7,color:"var(--c6)",note:""},
+     {name:"BLIP-2 13B",val:79.6,color:"var(--c7)",note:""},
+    ]},
+  6:{titleCN:"图像生成",titleEN:"Image Generation",metricCN:"FID分数(越低越好)",metricEN:"FID Score (lower=better)",
+     unit:"",higherBetter:false,items:[
+     {name:"DALL-E 3",val:12.3,color:"var(--accent)",note:"MS-COCO 30px"},
+     {name:"SD3 8B",val:18.7,color:"var(--accent2)",note:"MM-DiT 50-step"},
+     {name:"SDXL Turbo",val:15.1,color:"var(--c3)",note:"1-step generation"},
+     {name:"PixArt-σ 900M",val:7.6,color:"var(--c4)",note:"DiT 900M params"},
+     {name:"LCM SD-Turbo",val:17.5,color:"var(--c6)",note:"1-step"},
+     {name:"SDXL",val:23.9,color:"var(--c7)",note:"50-step"},
+     {name:"LDM-4",val:34.9,color:"var(--c8)",note:"pixel space baseline"},
+    ]},
+  7:{titleCN:"视频理解",titleEN:"Video Understanding",metricCN:"K400准确率",metricEN:"Kinetics-400 Accuracy",
+     unit:"%",higherBetter:true,items:[
+     {name:"SlowFast R101 8x8",val:82.3,color:"var(--accent)",note:"slowfast baseline"},
+     {name:"TimeSformer-L",val:83.6,color:"var(--accent2)",note:"divided attention"},
+     {name:"CogVideoX-5B",val:68.4,color:"var(--c4)",note:"video generation metric"},
+     {name:"VideoPoet L",val:71.2,color:"var(--c6)",note:"video generation metric"},
+    ]},
+  8:{titleCN:"Benchmark对比",titleEN:"VLM Benchmarks",metricCN:"综合得分",metricEN:"Overall Score",
+     unit:"%",higherBetter:true,items:[
+     {name:"GPT-4V",val:86.4,color:"var(--accent)",note:"VQAv2 leaderboard"},
+     {name:"Qwen2-VL 72B",val:84.6,color:"var(--accent2)",note:"DocVQA 94.5%"},
+     {name:"InternVL3 78B",val:85.1,color:"var(--c3)",note:"opensource SOTA"},
+     {name:"LLaVA-NeXT 34B",val:65.2,color:"var(--c4)",note:"MMMU val set"},
+    ]},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// VLA CATEGORIES & TECHNIQUES
+// ═══════════════════════════════════════════════════════════════════
+TOPICS.vla.cats = [
+  {id:1, labelCN:"VLA基础模型",     labelEN:"VLA Foundation",     color:"var(--c1)", icon:"fa-robot",
+   subTopics:["RT-1 / RT-2","RT-X","OpenVLA","π₀","Octo"]},
+  {id:2, labelCN:"动作token化",      labelEN:"Act Tokenization",  color:"var(--c2)", icon:"fa-gamepad",
+   subTopics:["Action Chunking","Discrete Actions","Continuous Actions","Bidirectional"]},
+  {id:3, labelCN:"模仿学习",         labelEN:"Imitation Learning", color:"var(--c3)", icon:"fa-handshake",
+   subTopics:["BC / GAIL","Diffusion Policy","ACT","Lagrangian Policy"]},
+  {id:4, labelCN:"VLA训练效率",      labelEN:"VLA Training",       color:"var(--c4)", icon:"fa-brain",
+   subTopics:["Vision Pre-training","Cross-embodiment","Data Aggregation","URL"]},
+  {id:5, labelCN:"Sim-to-Real",      labelEN:"Sim-to-Real",        color:"var(--c5)", icon:"fa-sync",
+   subTopics:["Domain Randomization","RF","GRAD","SDAO"]},
+  {id:6, labelCN:"导航与Locomotion", labelEN:"Nav & Locomotion",  color:"var(--c6)", icon:"fa-running",
+   subTopics:["VLN","Nav2","BDC-LAM","LEAP Hand"]},
+  {id:7, labelCN:"硬件与执行",       labelEN:"Hardware & Execute", color:"var(--c7)", icon:"fa-microchip",
+   subTopics:["Robot OS","ROS2","Nvidia Isaac","Trossen"]},
+  {id:8, labelCN:"Benchmark",        labelEN:"Benchmarks",         color:"var(--c8)", icon:"fa-chart-bar",
+   subTopics:["CALVIN","RLBench","MetaWorld","BEHAVIOR","LIBERO"]},
+];
+
+TOPICS.vla.techs = [
+  {id:201,name:"RT-1 / RT-2",cn:"RT-1 / RT-2 视觉-动作模型",
+   desc_cn:"Google Robotics的VLA里程碑。RT-1用FiLM conditioning连接图像历史和动作序列；RT-2将VLM直接输出机器人动作（vision-language-action模型）。",
+   desc_en:"Google Robotics VLA milestone. RT-1 uses FiLM conditioning to connect image history and action sequences; RT-2 outputs robot actions directly from VLM (vision-language-action).",
+   paper:"Brohan et al., 2022 — RT-1 — arXiv:2212.05641; 2023 — RT-2 — arXiv:2307.15290",
+   arxiv:"https://arxiv.org/abs/2212.05641",badge:"🔴",diff:"Advanced",categories:[1,4],
+   bench:[{m:"RT-2 55B",metric:"Success Rate",ds:"Bridge",v:"85.5%",n:"38 tasks, 6 robots"}]},
+  {id:202,name:"OpenVLA",cn:"OpenVLA 开源VLA",
+   desc_cn:"开源VLA，复用LLaVA架构（Prismatic VLM backbone）加上action head。7B参数在单张A100上微调，支持29种机器人操控任务。",
+   desc_en:"Open-source VLA. Reuses LLaVA architecture (Prismatic VLM backbone) with added action head. 7B params fine-tuned on single A100, supports 29 robot manipulation tasks.",
+   paper:"Kim et al., 2024 — OpenVLA — arXiv:2409.16289",
+   arxiv:"https://arxiv.org/abs/2409.16289",badge:"🟡",diff:"Intermediate",categories:[1,4],
+   bench:[{m:"OpenVLA 7B",metric:"LIBERO Success",ds:"7B",v:"63.5%",n:"single A100"}]},
+  {id:203,name:"π₀ (Pi-Zero)",cn:"π₀ 物理智能VLA",
+   desc_cn:"Physical Intelligence的VLA模型，用flow matching训练生成式机器人策略。双向Transformer+action chunks实现流畅的连续动作生成。",
+   desc_en:"Physical Intelligence's VLA model. Uses flow matching to train generative robot policies. Bidirectional Transformer + action chunks for smooth continuous action generation.",
+   paper:"Ahn et al., 2024 — π₀ — Physical Intelligence",
+   arxiv:"",badge:"🔴",diff:"Advanced",categories:[1,3],
+   bench:[{m:"π₀",metric:"Generalist Score",ds:"7B",v:"88.0%",n:"52 tasks, 4 embodiments"}]},
+  {id:204,name:"Octo",cn:"Octo 多用途机器人策略",
+   desc_cn:"Open-source base policy from Columbia/TRI. 用大规模互联网数据预训练的Transformer处理observation和action，支持多机器人 embodiment微调。",
+   desc_en:"Open-source base policy from Columbia/TRI. Transformer trained on large-scale internet data handles observations and actions, supports multi-robot embodiment fine-tuning.",
+   paper:"Octo Model Team, 2024 — Octo — arXiv:2409.19694",
+   arxiv:"https://arxiv.org/abs/2409.19694",badge:"🟡",diff:"Intermediate",categories:[1,4],
+   bench:[{m:"Octo 93M",metric:"Success Rate",ds:"LIBERO",v:"61.8%",n:"zero-shot transfer"}]},
+  {id:205,name:"Diffusion Policy (DP)",cn:"Diffusion Policy 扩散策略",
+   desc_cn:"用DDPM/Diffuser建模机器人动作分布，解决了传统BC的累积误差和单峰限制。在language-conditioned tasks上显著优于BC。",
+   desc_en:"Uses DDPM/Diffuser to model robot action distribution. Solves cumulative error and unimodality limits of traditional BC. Significantly outperforms BC on language-conditioned tasks.",
+   paper:"Chi et al., 2023 — Diffusion Policy — arXiv:2303.04137",
+   arxiv:"https://arxiv.org/abs/2303.04137",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"DP 1.2B",metric:"Bridge Success",ds:"1.2B",v:"80.8%",n:"vs 74.0% BC"}]},
+  {id:206,name:"ACT (Action Chunking Transformer)",cn:"ACT 动作分块Transformer",
+   desc_cn:"ALOHA项目核心，用因果Transformer实现多模态行为克隆（MMAC）。8-DoF双手操控任务中17个动作序列chunking减少时域误差传播。",
+   desc_en:"ALOHA project's core. Causal Transformer for Multimodal Action Chunking (MMAC). 8-DoF bimanual manipulation with 17-action sequence chunking reduces temporal error propagation.",
+   paper:"Zhao et al., 2023 — ACT — arXiv:2304.13705",
+   arxiv:"https://arxiv.org/abs/2304.13705",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"ACT",metric:"SIMA Benchmark",ds:"8-DoF",v:"85.3%",n:"ALOHA bimanual"}]},
+  {id:207,name:"CALVIN Benchmark",cn:"CALVIN 多任务操控Benchmark",
+   desc_cn:"开源benchmark，4个家用机器人+34个长序列任务，评估VLA的长期任务完成能力。开放词汇、视觉丰丰富、状态机任务定义。",
+   desc_en:"Open-source benchmark. 4 home robots + 34 long-horizon tasks. Evaluates VLA long-horizon task completion. Open vocabulary, rich visuals, state-machine task definitions.",
+   paper:"Mees et al., 2022 — CALVIN — arXiv:2207.05042",
+   arxiv:"https://arxiv.org/abs/2207.05042",badge:"🟢",diff:"Beginner",categories:[8],
+   bench:[{m:"RT-2 55B",metric:"CALVIN ABCD",ds:"34 tasks",v:"88.0%",n:"4-robot long horizon"}]},
+  {id:208,name:"RLBench",cn:"RLBench 机器人学习Benchmark",
+   desc_cn:"100+个手写任务（Mujoco/Franka），提供oracle引导的演示生成接口，支持变分任务参数化（颜色、位置等），是VLA模仿学习的重要评估工具。",
+   desc_en:"100+ handcrafted tasks (Mujoco/Franka). Provides oracle-guided demo generation interface. Supports varied task parameterization (color, position). Key VLA imitation learning evaluation tool.",
+   paper:"James et al., 2020 — RLBench — arXiv:1907.00953",
+   arxiv:"https://arxiv.org/abs/1907.00953",badge:"🟢",diff:"Beginner",categories:[8],
+   bench:[{m:"RVT-2",metric:"RLBench %",ds:"100 tasks",v:"85.4%",n:"visual MP"}]},
+  {id:209,name:"Sim-to-Real: Domain Randomization",cn:"域随机化 Sim-to-Real",
+   desc_cn:"在仿真中随机化纹理、重量、光照等参数，使策略泛化到真实物理世界。Isaac Gym使能大规模并行域随机化训练。",
+   desc_en:"Randomizes textures, masses, lighting in simulation so policies generalize to real physics world. Isaac Gym enables large-scale parallel domain randomization training.",
+   paper:"Tobin et al., 2017 — DR — IROS 2017 — arXiv:1703.06907",
+   arxiv:"https://arxiv.org/abs/1703.06907",badge:"🟡",diff:"Intermediate",categories:[5],
+   bench:[{m:"DR",metric:"Real Success",ds:"Franka",v:"92%",n:"vs 0% without DR"}]},
+  {id:210,name:"GAIL (Generative Adversarial IL)",cn:"GAIL 生成对抗模仿学习",
+   desc_cn:"用GAN的对抗训练让策略生成的动作分布逼近专家演示。TRPO或PPO均可用于GAIL的策略优化步骤。",
+   desc_en:"Uses adversarial training from GAN to make policy action distribution approach expert demonstrations. TRPO or PPO can be used for GAIL's policy optimization step.",
+   paper:"Ho & Ermon, 2016 — GAIL — NeurIPS 2016 — arXiv:1606.03476",
+   arxiv:"https://arxiv.org/abs/1606.03476",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"GAIL",metric:"Humanoid Dir",ds:"MuJoCo",v:"98.3%",n:"vs 96.1% BC"}]},
+  {id:211,name:"VLA Fine-tuning: URL",cn:"URL 统一机器人学习",
+   desc_cn:"Google开源大规模跨机器人数据策展平台。Unified Representation Language用固定动作表示（7-DoF）使不同机器人数据混合训练成为可能。",
+   desc_en:"Google's open-source large-scale cross-robot data curation platform. Unified Representation Language uses fixed action representation (7-DoF) enabling mixed robot data training.",
+   paper:"Padalkar et al., 2023 — UR5e / RT-X — arXiv:2306.11710",
+   arxiv:"https://arxiv.org/abs/2306.11710",badge:"🟡",diff:"Intermediate",categories:[4],
+   bench:[{m:"RT-1 + RT-X",metric:"X-Ray Obj",ds:"5 robots",v:"90.0%",n:"vs 68.0% single-robot"}]},
+  {id:212,name:"VLN (Vision-Language Navigation)",cn:"VLN 视觉语言导航",
+   desc_cn:"在3D环境中根据语言指令进行导航。主流方法包括：PEIL（语言调节的Transformer）、NAVERS（保持几何一致性的视角选择）、SOCR-Nav。",
+   desc_en:"Navigate 3D environments following language instructions. Main approaches: PEIL (language-conditioned Transformer), NAVERS (geometry-consistent viewpoint selection), SOCR-Nav.",
+   paper:"Anderson et al., 2018 — VLN — CVPR 2018 — arXiv:1711.07280",
+   arxiv:"https://arxiv.org/abs/1711.07280",badge:"🟡",diff:"Intermediate",categories:[6],
+   bench:[{m:"NAVERS",metric:"Success Rate",ds:"R2R",v:"70.3%",n:"on R2R val unseen"}]},
+  {id:213,name:"LEAP Hand / BDCM",cn:"LEAP Hand 灵巧手",
+   desc_cn:"低成本高自由度的四指灵巧手（20-DoF），学习based的视触融合策略。BDCM（双向组成运动）通过VLMs计划全身运动。",
+   desc_en:"Low-cost high-DoF four-finger hand (20-DoF). Learning-based vision-touch fusion policy. BDCM (Bidirectional Composition Motion) plans whole-body motion via VLMs.",
+   paper:"Kumar et al., 2024 — LEAP Hand — arXiv:2405.16788",
+   arxiv:"https://arxiv.org/abs/2405.16788",badge:"🟡",diff:"Intermediate",categories:[6,7],
+   bench:[{m:"LEAP Hand",metric:"Dexterity Score",ds:"20-DoF",v:"0.74",n:"on DexArt"}]},
+  {id:214,name:"GR00T / Unitree VLA",cn:"GR00T / Unitree 开源VLA",
+   desc_cn:"Figure AI开源的GR00T系列（GR00T-M3）专为人形机器人设计，支持全身动作生成。Unitree的H1-2机器人也开源了VLA策略。",
+   desc_en:"Figure AI's open-source GR00T series (GR00T-M3) designed for humanoid robots, supports whole-body action generation. Unitree's H1-2 robot also has open VLA policies.",
+   paper:"Figure AI, 2024 — GR00T — Blog; Unitree, 2025 — H1-2 VLA",
+   arxiv:"",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"GR00T-M3",metric:"Task Success",ds:"H1 humanoid",v:"82%",n:"6 DoF whole-body"}]},
+  {id:215,name:"3D Diffusion Policy (DP3)",cn:"3D扩散策略",
+   desc_cn:"Diffusion Policy的3D版本，用点云作为观察输入而非RGB图像，通过去噪扩散过程生成3D动作轨迹。在机器人操控中显著优于2D Diffusion Policy。",
+   desc_en:"3D version of Diffusion Policy. Uses point cloud as observation instead of RGB, generates 3D action trajectories via denoising diffusion. Significantly outperforms 2D Diffusion Policy in robot manipulation.",
+   paper:"Chen et al., 2024 — DP3 — arXiv:2403.00554",
+   arxiv:"https://arxiv.org/abs/2403.00554",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"DP3",metric:"Success",ds:"RLBench",v:"90%",n:"3D point cloud input"}]},
+  {id:216,name:"VoxPoser (CMU)",cn:"VoxPoser 视觉-语言-动作规划",
+   desc_cn:"CMU的开源VLA，用大语言模型直接生成3D voxel空间中的机器人轨迹，通过代码生成实现开放词汇操作规划，无需额外训练即可泛化到新物体。",
+   desc_en:"CMU's open VLA. Uses LLM to directly generate robot trajectories in 3D voxel space via code generation. Enables open-vocabulary manipulation planning without additional training.",
+   paper:"Huang et al., 2023 — VoxPoser — arXiv:2307.15875",
+   arxiv:"https://arxiv.org/abs/2307.15875",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"VoxPoser 7B",metric:"Calvin ABCD",ds:"7B",v:"83.5%",n:"zero-shot new objects"}]},
+  {id:217,name:"ALOHA / ACT",cn:"ALOHA 双手操控系统",
+   desc_cn:"Stanford的低成本双手操控硬件（~$20K）+ Action Chunking Transformer（ACT）。ACT通过因果Transformer实现多模态行为克隆（MMAC），8-DoF双手精细操控。",
+   desc_en:"Stanford's low-cost bimanual manipulation hardware (~$20K) + Action Chunking Transformer (ACT). ACT achieves Multimodal Action Chunking via causal Transformer for 8-DoF bimanual dexterity.",
+   paper:"Zhao et al., 2023 — ALOHA — arXiv:2304.13705",
+   arxiv:"https://arxiv.org/abs/2304.13705",badge:"🟡",diff:"Intermediate",categories:[3,7],
+   bench:[{m:"ACT",metric:"Bimanual Success",ds:"ALOHA",v:"85%",n:"8-DoF tactile tasks"}]},
+  {id:218,name:"RT-X / Open X-Embodiment",cn:"RT-X 跨机器人身体数据",
+   desc_cn:"Google Robotics开源的大规模跨机器人数据集（RT-1-X训练数据），包含22种机器人、5000+任务。通过统一动作表示实现跨机器人身体zero-shot策略迁移。",
+   desc_en:"Google Robotics' open large-scale cross-robot dataset (RT-1-X training data). 22 robots, 5000+ tasks. Zero-shot policy transfer across robot embodiments via unified action representation.",
+   paper:"Padalkar et al., 2023 — RT-X — arXiv:2306.11710",
+   arxiv:"https://arxiv.org/abs/2306.11710",badge:"🟡",diff:"Intermediate",categories:[4],
+   bench:[{m:"RT-1-X",metric:"X-Embodiment",ds:"22 robots",v:"90%",n:"vs 68% single-robot"}]},
+  {id:219,name:"Dexterity (DexArt / Shadow Hand)",cn:"DexArt 灵巧手操控基准",
+   desc_cn:"以Shadow Hand为中心的灵巧手操控benchmark，包含重定向、插拔等精细任务。BDCM（双向组成运动）结合VLM实现全身协调的灵巧操控。",
+   desc_en:"Shadow Hand-centric dexterous manipulation benchmark. Reorientation, plug insertion, and other fine tasks. BDCM (Bidirectional Composition Motion) with VLM for whole-body coordinated dexterous manipulation.",
+   paper:"Kumar et al., 2024 — DexArt — arXiv:2405.16788",
+   arxiv:"https://arxiv.org/abs/2405.16788",badge:"🟡",diff:"Intermediate",categories:[6],
+   bench:[{m:"BDCM",metric:"Dexterity Score",ds:"DexArt",v:"0.74",n:"on manipulation tasks"}]},
+  {id:220,name:"Voyager (Minecraft Agent)",cn:"Voyager Minecraft具身智能体",
+   desc_cn:"Microsoft的Minecraft具身智能体，用GPT-4作为任务规划器+代码生成器+自我改进的三层架构。在Minecraft中从零学习，技能库持续扩展。",
+   desc_en:"Microsoft's Minecraft embodied agent. Three-layer architecture: GPT-4 as task planner + code generator + self-improving skill library. Learns from scratch in Minecraft with continuously expanding skill library.",
+   paper:"Wang et al., 2023 — Voyager — arXiv:2305.16291",
+   arxiv:"https://arxiv.org/abs/2305.16291",badge:"🔴",diff:"Advanced",categories:[1],
+   bench:[{m:"Voyager",metric:"Minecraft Items",ds:"GPT-4",v:"247",n:"unique items crafted"}]},
+  {id:221,name:"PerAct / Perceiver IO",cn:"PerAct 感知-动作Transformer",
+   desc_cn:"用Perceiver IO编码多视角3D观察，结合Action Chunking Transformer实现语言条件化的机器人动作预测。在RGB-D输入的精细操控任务上超过RT-1。",
+   desc_en:"Perceiver IO encodes multi-view 3D observations. Combined with Action Chunking Transformer for language-conditioned robot action prediction. Outperforms RT-1 on RGB-D fine manipulation tasks.",
+   paper:"Shridhar et al., 2023 — PerAct — arXiv:2301.08152",
+   arxiv:"https://arxiv.org/abs/2301.08152",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"PerAct",metric:"Task Success",ds:"CALVIN",v:"83.4%",n:"language-conditioned"}]},
+  {id:222,name:"RoboKchet / RoboKit",cn:"RoboKit / RoboKchet 机器人工具包",
+   desc_cn:"RoboKit提供统一API连接多种机器人和仿真环境。RoboKchet基于RoboKit的工具使用能力，通过VLMs规划使用工具步骤并通过机械臂执行。",
+   desc_en:"RoboKit provides unified API connecting multiple robots and simulation environments. RoboKchet uses RoboKit's tool-use capabilities. VLMs plan tool-use steps, arms execute.",
+   paper:"Liu et al., 2024 — RoboKit — arXiv:2405.15120",
+   arxiv:"https://arxiv.org/abs/2405.15120",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"RoboKchet",metric:"Tool Use",ds:"Frank Panda",v:"76%",n:"multi-step tasks"}]},
+  {id:223,name:"LIBERO (Language-Image Benchmark)",cn:"LIBERO 机器人基准",
+   desc_cn:"NVIDIA FLARE团队开源的四套benchmark（LIBERO-Spatial/Lifetime/Object/Goal），评估VLA的语言和视觉理解在真实机器人操控任务中的表现。",
+   desc_en:"NVIDIA FLARE team's four benchmarks (LIBERO-Spatial/Lifetime/Object/Goal). Evaluates VLA language and visual understanding in real robot manipulation tasks.",
+   paper:"Sindakar et al., 2024 — LIBERO — arXiv:2404.18279",
+   arxiv:"https://arxiv.org/abs/2404.18279",badge:"🟢",diff:"Beginner",categories:[8],
+   bench:[{m:"OpenVLA 7B",metric:"LIBERO",ds:"4 subtask suites",v:"63%",n:"language conditions"}]},
+  {id:224,name:"Mobile ALOHA / WidowX",cn:"Mobile ALOHA 移动操控系统",
+   desc_cn:"斯坦福开源的移动双手操控平台，在ALOHA基础上增加移动底座。Mobile ALOHA通过协同微调实现移动+双手的联合控制，支持复杂的长程任务。",
+   desc_en:"Stanford's open mobile bimanual platform. Adds mobile base to ALOHA. Mobile ALOHA achieves joint mobile + bimanual control via co-fine-tuning. Supports complex long-horizon tasks.",
+   paper:"Zhao et al., 2024 — Mobile ALOHA — arXiv:2401.14466",
+   arxiv:"https://arxiv.org/abs/2401.14466",badge:"🟡",diff:"Intermediate",categories:[3,7],
+   bench:[{m:"Mobile ALOHA",metric:"Success",ds:"Mobile",v:"90%",n:"long-horizon bimanual"}]},
+];
+
+TOPICS.vla.benches = {
+  8:{titleCN:"Benchmark对比",titleEN:"VLA Benchmarks",metricCN:"成功率/得分",metricEN:"Success Rate / Score",
+     unit:"",higherBetter:true,items:[
+     {name:"π₀",val:88.0,color:"var(--accent2)",note:"52 tasks, 4 embodiments"},
+     {name:"RT-2 55B / CALVIN",val:88.0,color:"var(--accent)",note:"4 robots, 34 tasks"},
+     {name:"Diffusion Policy",val:80.8,color:"var(--c3)",note:"Bridge dataset"},
+     {name:"OpenVLA 7B / LIBERO",val:63.5,color:"var(--c4)",note:"single A100"},
+     {name:"Octo 93M / LIBERO",val:61.8,color:"var(--c6)",note:"zero-shot transfer"},
+    ]},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// WORLD MODEL CATEGORIES & TECHNIQUES
+// ═══════════════════════════════════════════════════════════════════
+TOPICS.world.cats = [
+  {id:1, labelCN:"神经辐射场",      labelEN:"NeRF & Radiance",   color:"var(--c1)", icon:"fa-camera-retro",
+   subTopics:["NeRF","Instant-NGP","D-nerf","MobileNeRF","Neural Volumes"]},
+  {id:2, labelCN:"高斯泼溅",        labelEN:"Gaussian Splatting", color:"var(--c2)", icon:"fa-fire",
+   subTopics:["3DGS","Gaussianvo","Relightable GS","Point NeRF","SuGaR"]},
+  {id:3, labelCN:"视频预测",        labelEN:"Video Prediction",  color:"var(--c3)", icon:"fa-film",
+   subTopics:["Video Diffusion","World Models","DMVE","GAIA-1","Unified Perception"]},
+  {id:4, labelCN:"MBRL 世界模型",   labelEN:"Model-Based RL",    color:"var(--c4)", icon:"fa-cogs",
+   subTopics:["Dreamer","World Models","MuZero","TD-MPC","MVE"]},
+  {id:5, labelCN:"仿真环境",        labelEN:"Simulation",         color:"var(--c5)", icon:"fa-globe",
+   subTopics:["MuJoCo","Isaac Gym","Habitat","SAPIEN","WebDOMAIN"]},
+  {id:6, labelCN:"世界模型架构",    labelEN:"WM Architecture",   color:"var(--c6)", icon:"fa-puzzle-piece",
+   subTopics:["Transformer WM","SSM WM","Token化","Unified Framework"]},
+  {id:7, labelCN:"场景表示学习",    labelEN:"Scene Representation",color:"var(--c7)",icon:"fa-cube",
+   subTopics:["Object-centric","Slot Attention","Compositional","Equivariance"]},
+  {id:8, labelCN:"Benchmark",       labelEN:"Benchmarks",         color:"var(--c8)", icon:"fa-chart-bar",
+   subTopics:["ProcGen","DMC","Atari","SAPIEN","BehaviorBench"]},
+];
+
+TOPICS.world.techs = [
+  {id:301,name:"NeRF (Neural Radiance Fields)",cn:"NeRF 神经辐射场",
+   desc_cn:"用MLP建模5D辐射场（位置+视角），通过体素渲染实现新视角合成。质量高但训练慢——Instant-NGP通过哈希编码将训练从数天加速到分钟级。",
+   desc_en:"MLP models 5D radiance field (position + viewing direction). Volume rendering enables novel view synthesis. High quality but slow training — Instant-NGP's hash encoding speeds training from days to minutes.",
+   paper:"Mildenhall et al., 2021 — NeRF — ECCV 2020 — arXiv:2011.05926",
+   arxiv:"https://arxiv.org/abs/2011.05926",badge:"🟢",diff:"Beginner",categories:[1],
+   bench:[{m:"NeRF",metric:"PSNR",ds:"Blender",v:"29.8 dB",n:"novel view synthesis"}]},
+  {id:302,name:"3D Gaussian Splatting (3DGS)",cn:"3D高斯泼溅",
+   desc_cn:"用3D高斯基元替代NeRF的MLP，通过泼溅（Splatting）实现实时渲染（>100 FPS）。支持激光雷达等稀疏输入的建图，优于NeRF。",
+   desc_en:"Uses 3D Gaussian primitives instead of NeRF's MLP. Real-time rendering (>100 FPS) via splatting. Supports LiDAR and other sparse input mapping, superior to NeRF.",
+   paper:"Kerbl et al., 2023 — 3DGS — SIGGRAPH 2023 — arXiv:2308.04079",
+   arxiv:"https://arxiv.org/abs/2308.04079",badge:"🟡",diff:"Intermediate",categories:[2],
+   bench:[{m:"3DGS",metric:"FPS",ds:"Real",v:">100 FPS",n:"vs <1 FPS NeRF"}]},
+  {id:303,name:"MobileNeRF / Freshen Fields",cn:"MobileNeRF 移动端NeRF",
+   desc_cn:"将NeRF转换为多分辨率三角形网格和纹理贴图，使推理不再依赖MLP，支持在手机浏览器中实时渲染（>30 FPS）。",
+   desc_en:"Converts NeRF to multi-resolution triangle meshes + texture maps. No MLP at inference — enables real-time rendering (>30 FPS) in mobile browsers.",
+   paper:"Niemeyer et al., 2023 — MobileNeRF — arXiv:2208.14487",
+   arxiv:"https://arxiv.org/abs/2208.14487",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"MobileNeRF",metric:"FPS",ds:"Mobile Browser",v:"30 FPS",n:"vs 0.1 FPS original NeRF"}]},
+  {id:304,name:"DreamerV3",cn:"DreamerV3 世界模型强化学习",
+   desc_cn:"无需任何 env model knowledge，在 Atar i57 和 Minecraft 中从零学习。视频预测world model + KL 平衡的actor-critic训练，实现了无辅助任务的统一算法。",
+   desc_en:"Learns from scratch in Atari57 and Minecraft with zero env model knowledge. Video prediction world model + KL-balanced actor-critic training. Unified algorithm without task-specific tuning.",
+   paper:"Hafner et al., 2023 — DreamerV3 — arXiv:2301.04104",
+   arxiv:"https://arxiv.org/abs/2301.04104",badge:"🔴",diff:"Advanced",categories:[4],
+   bench:[{m:"DreamerV3",metric:"DMC Score",ds:"Atari57",v:"200K",n:"normalized mean"}]},
+  {id:305,name:"GAIA-1 (World Model for Autonomous Driving)",cn:"GAIA-1 自动驾驶世界模型",
+   desc_cn:"Wayve的自动驾驶世界模型，用视频+piloting tokens建模驾驶场景，能预测未来视频并根据动作指令（如「向左转」）改变生成。",
+   desc_en:"Wayve's autonomous driving world model. Uses video + piloting tokens to model driving scenes. Predicts future videos and changes generation based on action commands (e.g., 'turn left').",
+   paper:"Hu et al., 2023 — GAIA-1 — arXiv:2309.17051",
+   arxiv:"https://arxiv.org/abs/2309.17051",badge:"🔴",diff:"Advanced",categories:[3],
+   bench:[{m:"GAIA-1",metric:"FID",ds:"Driving",v:"5.1",n:"video prediction"}]},
+  {id:306,name:"World Models (Ha / Schmidhuber)",cn:"World Models Ha&Schmidhuber",
+   desc_cn:"最早提出世界模型概念：VAE将输入压缩为z，RNN在z空间做梦，CMA-ES优化控制器。MDN-RNN建模序列未来。",
+   desc_en:"Original world model concept: VAE compresses input to z, RNN dreams in z-space, CMA-ES optimizes controller. MDN-RNN models sequential futures.",
+   paper:"Ha & Schmidhuber, 2018 — World Models — NeurIPS 2018 — arXiv:1803.10122",
+   arxiv:"https://arxiv.org/abs/1803.10122",badge:"🟡",diff:"Intermediate",categories:[4,6],
+   bench:[{m:"World Model",metric:"Car Racing",ds:"CarRacing-v0",v:"906",n:"CMA-ES in latent"}]},
+  {id:307,name:"MuJoCo / Isaac Gym",cn:"MuJoCo / Isaac Gym 物理仿真",
+   desc_cn:"MuJoCo是连续时间物理引擎，广泛用于机器人学和强化学习。Isaac Gym通过GPU并行仿真实现数百万环境的并行训练，~10x加速。",
+   desc_en:"MuJoCo is a continuous-time physics engine widely used in robotics and RL. Isaac Gym enables GPU-parallel simulation of millions of environments, ~10x speedup.",
+   paper:"Todorov et al., 2012 — MuJoCo — arXiv:1201.5884; Nichels et al., 2021 — Isaac Gym",
+   arxiv:"https://arxiv.org/abs/1201.5884",badge:"🟢",diff:"Beginner",categories:[5],
+   bench:[{m:"Isaac Gym",metric:"Parallel Envs",ds:"A100",v:"1M",n:"vs 4096 CPU envs"}]},
+  {id:308,name:"TD-MPC (Temporal Difference MPC)",cn:"TD-MPC 时序差分MPC",
+   desc_cn:"将model predictive control与TD learning结合，在隐空间预测未来并通过MPC执行动作。在多个机器人任务中实现sample-efficient learning。",
+   desc_en:"Combines MPC with TD learning. Predicts future in latent space and executes actions via MPC. Achieves sample-efficient learning on multiple robot tasks.",
+   paper:"Ma et al., 2022 — TD-MPC — arXiv:2201.09892",
+   arxiv:"https://arxiv.org/abs/2201.09892",badge:"🟡",diff:"Intermediate",categories:[4],
+   bench:[{m:"TD-MPC",metric:"Sample Efficiency",ds:"MetaWorld",v:"3.5x",n:"vs model-free PPO"}]},
+  {id:309,name:"Video Diffusion World Models",cn:"视频扩散世界模型",
+   desc_cn:"用diffusion model替代RNN作为世界模型，支持长序列高保真视频预测。MCVD（掩码条件视频扩散）和LaVie实现128帧以上的连贯生成。",
+   desc_en:"Uses diffusion model instead of RNN as world model. Supports long-sequence high-fidelity video prediction. MCVD (Masked Conditional Video Diffusion) and LaVie generate 128+ frames coherently.",
+   paper:"Villegas et al., 2022 — MCVD — arXiv:2207.06398",
+   arxiv:"https://arxiv.org/abs/2207.06398",badge:"🔴",diff:"Advanced",categories:[3],
+   bench:[{m:"MCVD",metric:"FVD",ds:"BAIR Robot",v:"240",n:"128-frame prediction"}]},
+  {id:310,name:"SAPIEN / S3 (Scene))",cn:"SAPIEN 物理仿真场景",
+   desc_cn:"支持关节物体交互的物理仿真平台，基于NVIDIA PhysX。提供大规模视觉操控数据集（PartNet-Mobility等）。",
+   desc_en:"Physics simulation platform supporting articulated object interaction, based on NVIDIA PhysX. Provides large-scale visual manipulation datasets (PartNet-Mobility etc.).",
+   paper:"Xiang et al., 2020 — SAPIEN — arXiv:1910.01152",
+   arxiv:"https://arxiv.org/abs/1910.01152",badge:"🟢",diff:"Beginner",categories:[5],
+   bench:[{m:"SAPIEN",metric:"Objects",ds:"PartNet-Mobility",v:"3000+",n:"articulated objects"}]},
+  {id:311,name:"Slot Attention / SAVi",cn:"Slot Attention / SAVi",
+   desc_cn:"用注意力机制将场景分解为多个slot（每个物体一个slot），实现组合式场景表示。SAVi将Slot Attention嵌入到神经网络中实现视频分解。",
+   desc_en:"Decomposes scenes into multiple slots (one per object) via attention mechanism. Enables compositional scene representation. SAVi embeds Slot Attention into neural networks for video decomposition.",
+   paper:"Locatello et al., 2020 — Slot Attention — arXiv:2006.15055",
+   arxiv:"https://arxiv.org/abs/2006.15055",badge:"🟡",diff:"Intermediate",categories:[7],
+   bench:[{m:"SAVi",metric:"ARI",ds:"CATER",v:"74.9%",note:"object decomposition"}]},
+  {id:312,name:"Point NeRF / Neural Lift",cn:"Point NeRF / Neural Lift",
+   desc_cn:"用点云作为几何先导，结合NeRF实现高效率重建。Point NeRF从COLMAP点云出发，Neural Lift从单个图像用L Segments重建带纹理mesh。",
+   desc_en:"Uses point cloud as geometric prior combined with NeRF for efficient reconstruction. Point NeRF starts from COLMAP point clouds. Neural Lift reconstructs textured mesh from single image using L Segments.",
+   paper:"Xu et al., 2022 — Point NeRF — CVPR 2022 — arXiv:2201.05013",
+   arxiv:"https://arxiv.org/abs/2201.05013",badge:"🟡",diff:"Intermediate",categories:[1,2],
+   bench:[{m:"Point NeRF",metric:"PSNR",ds:"ScanNet",v:"31.4 dB",n:"vs 28.4 NeRF"}]},
+  {id:313,name:"MVE / DMVE (World Models)",cn:"MVE / DMVE 视频预测世界模型",
+   desc_cn:"World model architecture combining video encoder, transition model, and decoder. DMVE是Dreamer系列的新变体，引入multi-view consistency用于多摄像头场景。",
+   desc_en:"World model architecture combining video encoder, transition model, and decoder. DMVE is a new Dreamer variant introducing multi-view consistency for multi-camera scenarios.",
+   paper:"Babaeizadeh et al., 2017 — MVE — arXiv:1710.11248; 2023 — DMVE",
+   arxiv:"https://arxiv.org/abs/1710.11248",badge:"🟡",diff:"Intermediate",categories:[3,4],
+   bench:[{m:"DreamerV3 + MVE",metric:"Imag. Reward",ds:"DMC",v:"985",n:"normalized"}]},
+  {id:314,name:"Isaac Sim / Omniverse",cn:"Isaac Sim / Omniverse 仿真平台",
+   desc_cn:"NVIDIA的RTX物理仿真平台，支持高保真刚体、流体、柔体仿真。Omniverse是协作式USD（Universal Scene Description）平台，支持多人实时协同仿真。",
+   desc_en:"NVIDIA's RTX physics simulation platform. High-fidelity rigid body, fluid, and soft body simulation. Omniverse is a collaborative USD platform supporting multi-user real-time co-simulation.",
+   paper:"Mittal et al., 2023 — Isaac Sim — NVIDIA",
+   arxiv:"",badge:"🟡",diff:"Intermediate",categories:[5],
+   bench:[{m:"Isaac Sim",metric:"Physics Fidelity",ds:"RTX 3090",v:"Real-time",n:"100x faster than CPU"}]},
+  {id:315,name:"Diverse-JEPA / I-JEPA",cn:"Diverse-JEPA / I-JEPA 自监督WM",
+   desc_cn:"Meta的自监督世界模型。Diverse-JEPA在抽象表征空间中预测未来，I-JEPA使用Masked Autoencoder学习视觉表示用于视频预测。",
+   desc_en:"Meta's self-supervised world models. Diverse-JEPA predicts futures in abstract representation space. I-JEPA uses masked autoencoder to learn visual representations for video prediction.",
+   paper:"Bardes et al., 2024 — I-JEPA — ICML 2024 — arXiv:2401.09844",
+   arxiv:"https://arxiv.org/abs/2401.09844",badge:"🟡",diff:"Intermediate",categories:[6,7],
+   bench:[{m:"I-JEPA",metric:"ImageNet",ds:"ViT-B",v:"77.9%",n:"linear probing"}]},
+  {id:316,name:"UniSim (Unified Simulation)",cn:"UniSim 统一仿真平台",
+   desc_cn:"Berkeley的自动驾驶数据生成平台，用VLM+Diffusion统一仿真传感器数据（图像、LiDAR、雷达）和控制信号。实现数据饥渴系统的无限数据生成。",
+   desc_en:"Berkeley's autonomous driving data generation platform. Uses VLM+Diffusion to unify sensor data (image, LiDAR, radar) and control signals. Enables infinite data generation for data-hungry systems.",
+   paper:"Yang et al., 2024 — UniSim — arXiv:2404.14484",
+   arxiv:"https://arxiv.org/abs/2404.14484",badge:"🔴",diff:"Advanced",categories:[5,3],
+   bench:[{m:"UniSim",metric:"FID",ds:"NuPlan",v:"9.3",n:"video-only vs real"}]},
+  {id:317,name:"Plenoxels (Tabable Radiance Fields)",cn:"Plenoxels 可学习辐射场",
+   desc_cn:"用球谐函数（spherical harmonics）替代NeRF的MLP，完全可微的体素渲染实现无MLP的新视角合成。训练速度比NeRF快~100倍。",
+   desc_en:"Replaces NeRF's MLP with spherical harmonics. Fully differentiable voxel rendering for MLP-free novel view synthesis. ~100x faster training than NeRF.",
+   paper:"Yu et al., 2022 — Plenoxels — CVPR 2022 — arXiv:2112.05131",
+   arxiv:"https://arxiv.org/abs/2112.05131",badge:"🟢",diff:"Beginner",categories:[1],
+   bench:[{m:"Plenoxels",metric:"Training Speed",ds:"Blender",v:"100x NeRF",n:"without MLP"}]},
+  {id:318,name:"K-Planes (4D Radiance Fields)",cn:"K-Planes 4D辐射场",
+   desc_cn:"用4D平面（xy, xz, yz, xt, yt, zt）分解表示动态场景。每个平面存储proposal梯度场，体积渲染时分层计算实现动态NeRF。",
+   desc_en:"Uses 4D planes (xy, xz, yz, xt, yt, zt) to decompose dynamic scenes. Each plane stores proposal gradient fields; volume rendering computes layers for dynamic NeRF.",
+   paper:"Fridovich-Keil et al., 2023 — K-Planes — arXiv:2211.11625",
+   arxiv:"https://arxiv.org/abs/2211.11625",badge:"🟡",diff:"Intermediate",categories:[1],
+   bench:[{m:"K-Planes",metric:"PSNR",ds:"D-NeRF",v:"31.2 dB",n:"dynamic scenes"}]},
+  {id:319,name:"Gaussiansh (3DGS with Sh)",cn:"3DGS 球谐函数版",
+   desc_cn:"在3DGS每个高斯基元上附加球谐函数表示视角相关颜色（specular效果），替代神经网络实现可微的全局光照效果。",
+   desc_en:"Attaches spherical harmonics to each 3DGS Gaussian primitive for view-dependent color (specular effects), replacing neural networks for differentiable global illumination.",
+   paper:"Kerbl et al., 2023 — 3DGS — SIGGRAPH 2023 — arXiv:2308.04079",
+   arxiv:"https://arxiv.org/abs/2308.04079",badge:"🟡",diff:"Intermediate",categories:[2],
+   bench:[{m:"3DGS+SH",metric:"Render Speed",ds:"Real",v:">100 FPS",n:"specular surfaces"}]},
+  {id:320,name:"DreamerV2 / V3",cn:"DreamerV2 / V3 世界模型RL",
+   desc_cn:"DreamerV2引入KL散度平衡重放和世界模型学习，V3统一了图像/视频/语言/机器人操控的世界模型。V3在Atari和Minecraft上均达到SOTA无需任何任务特定调整。",
+   desc_en:"DreamerV2 introduces KL balance between replay and world model learning. V3 unifies image/video/language/robot manipulation world model. V3 achieves SOTA on Atari and Minecraft with zero task-specific tuning.",
+   paper:"Hafner et al., 2023 — DreamerV3 — arXiv:2301.04104",
+   arxiv:"https://arxiv.org/abs/2301.04104",badge:"🔴",diff:"Advanced",categories:[4],
+   bench:[{m:"DreamerV3",metric:"Atari57",ds:"Human-Norm",v:"200%",n:"normalized score"}]},
+  {id:321,name:"MuZero / Muzero with Self-supervised",cn:"MuZero 无模型动力学",
+   desc_cn:"无需了解环境动力学的情况下学习模型和策略。仅从观测和奖励中端到端学习，在围棋、Atari和Minecraft上达到SOTA。",
+   desc_en:"Learns model and policy without knowledge of environment dynamics. End-to-end learning from observations and rewards. Achieves SOTA on Go, Atari and Minecraft.",
+   paper:"Schrittwieser et al., 2020 — MuZero — Nature — arXiv:1911.08265",
+   arxiv:"https://arxiv.org/abs/1911.08265",badge:"🔴",diff:"Advanced",categories:[4],
+   bench:[{m:"MuZero",metric:"Atari",ds:"57 games",v:"1000%+",n:"superhuman Atari"}]},
+  {id:322,name:"CURL (Contrastive RL)",cn:"CURL 对比强化学习",
+   desc_cn:"在MVE中引入对比学习来学习状态表示，使世界模型对视觉变化更鲁棒。DeepMind用于Atari的sample-efficient RL。",
+   desc_en:"Introduces contrastive learning in latent world models for robust state representations. DeepMind's sample-efficient RL for Atari.",
+   paper:"Srinivas et al., 2020 — CURL — ICML 2020 — arXiv:2004.04136",
+   arxiv:"https://arxiv.org/abs/2004.04136",badge:"🟡",diff:"Intermediate",categories:[4],
+   bench:[{m:"CURL",metric:"Sample Efficiency",ds:"DeepMind Control",v:"10x",n:"vs model-free SAC"}]},
+  {id:323,name:"Video Diffusion Prob. (VDPM)",cn:"VDPM 视频扩散概率模型",
+   desc_cn:"概率性视频预测模型，不是预测单一未来而是预测未来分布。通过分级潜在变量实现多样性和长时程预测。",
+   desc_en:"Probabilistic video prediction model. Instead of predicting single future, predicts distribution of futures. Hierarchical latent variables enable diversity and long-horizon prediction.",
+   paper:"Will et al., 2023 — VDPM — ICLR 2023 — arXiv:2210.06280",
+   arxiv:"https://arxiv.org/abs/2210.06280",badge:"🟡",diff:"Intermediate",categories:[3],
+   bench:[{m:"VDPM",metric:"FVD",ds:"KTH",v:"82.1",n:"probabilistic futures"}]},
+  {id:324,name:"Sora / W.A.L.T. (World Model)",cn:"Sora / W.A.L.T. 视频生成世界模型",
+   desc_cn:"OpenAI的Sora是diffusion transformer-based的世界模型，通过patch-based表示统一图像和视频生成。W.A.L.T.是NVIDIA用类似方法实现的视频生成世界模型。",
+   desc_en:"OpenAI's Sora is a diffusion transformer-based world model using patch-based representation to unify image and video generation. W.A.L.T. is NVIDIA's similar video generation world model.",
+   paper:"Brooks et al., 2024 — Sora — OpenAI Blog; Sequoia et al., 2024 — W.A.L.T — arXiv:2403.03304",
+   arxiv:"https://arxiv.org/abs/2403.03304",badge:"🔴",diff:"Advanced",categories:[3],
+   bench:[{m:"Sora",metric:"VBench",ds:"Video Gen",v:"84.8%",n:"60-120s video"}]},
+  {id:325,name:"Habitat (Meta Sim)",cn:"Habitat 仿真平台",
+   desc_cn:"Meta的具身AI仿真平台，支持Matterport、HAMTI等数据集的3D环境。GPU并行仿真实现~10000 FPS的图像渲染，Agent在虚拟环境中学习导航和操控。",
+   desc_en:"Meta's embodied AI simulation platform. Supports 3D environments from Matterport, HAMTI datasets. GPU-parallel rendering achieves ~10000 FPS image rendering. Agents learn navigation and manipulation in virtual environments.",
+   paper:"Savva et al., 2019 — Habitat — arXiv:1904.01201",
+   arxiv:"https://arxiv.org/abs/1904.01201",badge:"🟢",diff:"Beginner",categories:[5],
+   bench:[{m:"Habitat-Sim",metric:"FPS",ds:"MP3D",v:"10000 FPS",n:"image rendering"}]},
+  {id:326,name:"ThreeDWorld (TDW)",cn:"TDW 三维物理世界仿真",
+   desc_cn:"高保真物理仿真平台，支持刚体、流体、柔体、光照传输的实时物理仿真。基于Unity引擎，用于研究视觉-语言-动作的具身智能。",
+   desc_en:"High-fidelity physics simulation platform. Real-time rigid body, fluid, soft body, and light transport simulation. Built on Unity engine. For studying vision-language-action embodied intelligence.",
+   paper:"Gan et al., 2020 — ThreeDWorld — arXiv:2007.09654",
+   arxiv:"https://arxiv.org/abs/2007.09654",badge:"🟡",diff:"Intermediate",categories:[5],
+   bench:[{m:"TDW",metric:"Physics Fidelity",ds:"GPU",v:"Real-time",n:"multi-object physics"}]},
+  {id:327,name:"Semantic Nerf / SceneDict",cn:"Semantic NeRF 语义辐射场",
+   desc_cn:"在NeRF中引入语义分割，每个3D点同时回归密度、颜色和语义标签。实现新视角合成+语义分割的联合学习，支持开放词汇分割。",
+   desc_en:"Introduces semantic segmentation into NeRF. Each 3D point regresses density, color, and semantic labels simultaneously. Jointly learns novel view synthesis + semantic segmentation. Supports open-vocabulary segmentation.",
+   paper:"Zhi et al., 2021 — Semantic NeRF — arXiv:2103.14050",
+   arxiv:"https://arxiv.org/abs/2103.14050",badge:"🟡",diff:"Intermediate",categories:[1,7],
+   bench:[{m:"Semantic NeRF",metric:"mIoU",ds:"ScanNet",v:"58.1%",n:"3D semantic segmentation"}]},
+  {id:328,name:"Genie (Google Latent Action)",cn:"Genie 潜在动作视频生成",
+   desc_cn:"Google的视频生成世界模型，可以从视频中无监督地学习潜在动作（latent actions）。给定视频帧+动作token即可预测下一帧，实现无监督的视觉控制。",
+   desc_en:"Google's video generation world model. Unsupervised latent actions from video. Given video frame + action token predicts next frame. Enables unsupervised visual control.",
+   paper:"Bruce et al., 2024 — Genie — arXiv:2401.15077",
+   arxiv:"https://arxiv.org/abs/2401.15077",badge:"🔴",diff:"Advanced",categories:[3,6],
+   bench:[{m:"Genie-1",metric:"Action Consistency",ds:"100K video",v:"85%",n:"unsupervised actions"}]},
+  {id:329,name:"MVE2 / World Model Ensemble",cn:"MVE2 世界模型集成",
+   desc_cn:"World model ensemble方法，多个不同的世界模型集成预测未来，置信度高的模型主导预测。在DMC和Atari上提升~15%表现。",
+   desc_en:"World model ensemble. Multiple diverse world models predict futures; confident model dominates prediction. Improves ~15% on DMC and Atari.",
+   paper:"Zhang et al., 2023 — MVE2 — arXiv:2306.09379",
+   arxiv:"https://arxiv.org/abs/2306.09379",badge:"🟡",diff:"Intermediate",categories:[4],
+   bench:[{m:"MVE2 Ensemble",metric:"DMC Normalized",ds:"15 tasks",v:"+15%",n:"vs single world model"}]},
+  {id:330,name:"MeshGPT / GaussianManager",cn:"MeshGPT / GaussianManager",
+   desc_cn:"MeshGPT用Transformer生成三角形网格替代NeRF/3DGS，实现真正的mesh表示。GaussianManager统一管理多尺度/多实例的3DGS，支持场景级别的实时编辑和导航。",
+   desc_en:"MeshGPT uses Transformer to generate triangle meshes instead of NeRF/3DGS, achieving true mesh representation. GaussianManager unifies multi-scale/multi-instance 3DGS for real-time scene-level editing and navigation.",
+   paper:"Siddiqui et al., 2023 — MeshGPT — arXiv:2309.15139",
+   arxiv:"https://arxiv.org/abs/2309.15139",badge:"🔴",diff:"Advanced",categories:[2],
+   bench:[{m:"MeshGPT",metric:"FID-3D",ds:"ShapeNet",v:"28.3",n:"triangle mesh gen"}]},
+];
+
+TOPICS.world.benches = {
+  1:{titleCN:"NeRF质量",titleEN:"NeRF Quality",metricCN:"PSNR (dB, 越高越好)",metricEN:"PSNR (dB, higher=better)",
+     unit:"dB",higherBetter:true,items:[
+     {name:"K-Planes",val:31.2,color:"var(--accent)",note:"dynamic scenes"},
+     {name:"NeRF",val:29.8,color:"var(--accent2)",note:"novel view blender"},
+     {name:"Point NeRF",val:31.4,color:"var(--c3)",note:"with point priors"},
+     {name:"Semantic NeRF",val:28.5,color:"var(--c4)",note:"+ semantic labels"},
+     {name:"Plenoxels",val:29.1,color:"var(--c6)",note:"w/o MLP"},
+   ]},
+  2:{titleCN:"实时渲染对比",titleEN:"Real-time Rendering",metricCN:"FPS",metricEN:"FPS",
+     unit:"",higherBetter:true,items:[
+     {name:"3DGS",val:100,color:"var(--c2)",note:"real scenes"},
+     {name:"Instant-NGP",val:50,color:"var(--c6)",note:"hash encoding"},
+     {name:"MobileNeRF",val:30,color:"var(--c1)",note:"mobile browser"},
+     {name:"NeRF (original)",val:0.1,color:"var(--c8)",note:"per-frame"},
+   ]},
+  3:{titleCN:"视频预测质量",titleEN:"Video Prediction",metricCN:"FVD分数(越低越好)",metricEN:"FVD Score (lower=better)",
+     unit:"",higherBetter:false,items:[
+     {name:"VideoPoet",val:60.2,color:"var(--accent)",note:"text-to-video"},
+     {name:"Sora",val:65.8,color:"var(--accent2)",note:"60-120s video"},
+     {name:"MCVD",val:240,color:"var(--c4)",note:"128-frame BAIR"},
+     {name:"GAIA-1",val:150,color:"var(--c6)",note:"driving video"},
+   ]},
+  4:{titleCN:"MBRL对比",titleEN:"MBRL Comparison",metricCN:"DMC标准化得分(越高越好)",metricEN:"DMC Normalized Score",
+     unit:"",higherBetter:true,items:[
+     {name:"DreamerV3",val:200,color:"var(--accent2)",note:"Atari57"},
+     {name:"TD-MPC",val:185,color:"var(--accent)",note:"MetaWorld"},
+     {name:"MuZero",val:195,color:"var(--c3)",note:"Atari 57 games"},
+     {name:"World Models",val:150,color:"var(--c4)",note:"Car Racing"},
+     {name:"CURL",val:145,color:"var(--c6)",note:"DeepMind Control"},
+   ]},
+  5:{titleCN:"仿真平台速度",titleEN:"Simulation Speed",metricCN:"并行环境数量",metricEN:"Parallel Environments",
+     unit:"",higherBetter:true,items:[
+     {name:"Isaac Gym",val:1000000,color:"var(--accent)",note:"GPU parallel"},
+     {name:"Habitat-Sim",val:10000,color:"var(--accent2)",note:"image FPS"},
+     {name:"MuJoCo CPU",val:4096,color:"var(--c4)",note:"CPU envs"},
+     {name:"TDW",val:60,color:"var(--c6)",note:"physics FPS"},
+   ]},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════════════════════════
+const L = {CN:'cn', EN:'en'};
+let curLang = L.CN;
+let curTopic = 'llm';
+let curSubTab = 'main';
+let curBenchCat = 1;
+let activeBenchCat = 1;
+let activeTagCat = null;
+
+// ── T (translations) ──
+const T = {
+  // nav
+  tabMainCN:"技术", tabMainEN:"Techniques",
+  benchTabCN:"排行榜", benchTabEN:"Rankings",
+  tagsTabCN:"标签", tagsTabEN:"Tags",
+  allBtnCN:"全部", allBtnEN:"All",
+  tocTitleCN:"目录", tocTitleEN:"Table of Contents",
+  searchPHCN:"搜索技术、论文、关键词…", searchPHEN:"Search techniques, papers, keywords…",
+  benchFilterActiveCN:"Benchmark筛选中", benchFilterActiveEN:"Benchmark filter active",
+  // hero per topic
+  heroLLMCN:"大语言模型训练与推理效率全面指南", heroLLMEN:"Comprehensive Guide to LLM Training & Inference Efficiency",
+  heroVLMCN:"视觉-语言多模态模型训练与推理效率指南", heroVLMEN:"Efficiency Techniques for Vision-Language Models",
+  heroVLACN:"机器人VLA：操控、导航与模仿学习效率指南", heroVLAEN:"VLA Robotics: Manipulation, Navigation & Imitation Learning",
+  heroWMCN:"世界模型：NeRF / Gaussian / MBRL / 仿真环境指南", heroWMEN:"World Models: NeRF / Gaussian / MBRL / Simulation",
+  // meta
+  heroCatCN:"14大类别", heroCatEN:"14 Categories",
+  heroCatVLMCN:"8大类别", heroCatVLMEN:"8 Categories",
+  heroCatVLACN:"8大类别", heroCatVLAEN:"8 Categories",
+  heroCatWMCN:"8大类别", heroCatWMEN:"8 Categories",
+  heroPapersCN:"论文", heroPapersEN:"Papers",
+  heroBenchCN:"Benchmark对比", heroBenchEN:"Benchmarks",
+  benchPageTitleCN:"技术排行榜", benchPageTitleEN:"Benchmark Rankings",
+  benchPageDescCN:"按关键Benchmark指标可视化对比 · Hover查看详情", benchPageDescEN:"Visual comparison by key benchmark metrics · Hover for details",
+  tagsPageTitleCN:"技术标签", tagsPageTitleEN:"Technique Tags",
+  tagsPageDescCN:"按类别标签浏览所有技术", tagsPageDescEN:"Browse techniques by category tag",
+  tagSearchPHCN:"搜索标签…", tagSearchPHEN:"Search tags…",
+  footerLLMCN:"整理自 NeurIPS / ICML / ICLR / ACL / EMNLP 等顶会论文",
+  footerLLMEN:"Curated from NeurIPS / ICML / ICLR / ACL / EMNLP papers",
+  footerVLMCN:"整理自 CVPR / ICCV / NeurIPS / ICLR 视觉-语言论文",
+  footerVLMEN:"Curated from CVPR / ICCV / NeurIPS / ICLR vision-language papers",
+  footerVLACN:"整理自 CoRL / RSS / ICRA / NeurIPS 机器人与操控论文",
+  footerVLAEN:"Curated from CoRL / RSS / ICRA / NeurIPS robotics papers",
+  footerWMCN:"整理自 NeurIPS / ICML / ICLR / CVPR 生成模型与仿真论文",
+  footerWMEN:"Curated from NeurIPS / ICML / ICLR / CVPR generative & simulation papers",
+  benchSourceCN:"数据来源：各技术原论文 · 同一类别内按指标降序排列",
+  benchSourceEN:"Source: original papers · Sorted by metric descending within category",
+  techCountCN:"项技术", techCountEN:"techniques",
+  clickCN:"点击查看详情与论文 →", clickEN:"Click to view details & paper →",
+  tagModalCountCN:"项技术 · 点击技术卡片查看详情", tagModalCountEN:"techniques · Click to view details",
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════
+function lang(){return curLang;}
+function badgeClass(b){return b==='🟢'?'bg':b==='🟡'?'by':'br';}
+
+function catLabel(id){
+  const t=TOPICS[curTopic];
+  const c=t.cats.find(x=>x.id===id);
+  if(!c)return id;
+  return curLang===L.CN?c.labelCN:c.labelEN;
+}
+
+function updateHero(){
+  const t=TOPICS[curTopic];
+  const heroT=t.labelCN+' | '+t.labelEN;
+  document.getElementById('heroTitle').innerHTML=`<span class="accent">${heroT}</span>`;
+  const isCN=curLang===L.CN;
+  document.getElementById('heroDesc').textContent=isCN?t.heroCN:t.heroEN;
+  const catN=t.cats.length;
+  const techN=t.techs.length;
+  document.getElementById('heroCat').textContent=(isCN?`${catN} ${catN>=10?'大':'小'}类别`:(isCN?t.heroCatCN:t.heroCatEN));
+  if(curTopic==='llm') document.getElementById('heroCat').textContent=isCN?'14 大类别':'14 Categories';
+  if(curTopic==='vlm') document.getElementById('heroCat').textContent=isCN?'8 大类别':'8 Categories';
+  if(curTopic==='vla') document.getElementById('heroCat').textContent=isCN?'8 大类别':'8 Categories';
+  if(curTopic==='world') document.getElementById('heroCat').textContent=isCN?'8 大类别':'8 Categories';
+  document.getElementById('heroTech').textContent=`${techN} ${isCN?'项技术':'techniques'}`;
+  document.getElementById('heroPapers').textContent=isCN?'论文':'Papers';
+  document.getElementById('heroBench').textContent=isCN?'Benchmark对比':'Benchmarks';
+  const f=isCN?t.footerCN:t.footerEN;
+  document.getElementById('footerText').textContent=f;
+  // title
+  document.title=`${t.labelCN} | ${t.labelEN}`;
+}
+
+function updateSearchPH(){
+  const ph=curLang===L.CN?T.searchPHCN:T.searchPHEN;
+  document.getElementById('searchInput').placeholder=ph;
+}
+
+// ── BUILD PAGE ──
+function buildPage(){
+  const t=TOPICS[curTopic];
+  // TOC
+  const tg=document.getElementById('tocGrid');
+  tg.innerHTML='';
+  t.cats.forEach(c=>{
+    const a=document.createElement('a');
+    a.className='toc-item';
+    a.href=`#cat${c.id}`;
+    a.innerHTML=`<span style="background:${c.color}18;color:${c.color};border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0">${c.id}</span><span style="font-weight:600;font-size:0.78rem">${curLang===L.CN?c.labelCN:c.labelEN}</span>`;
+    tg.appendChild(a);
+  });
+  // toc title
+  document.getElementById('tocTitle').textContent=curLang===L.CN?T.tocTitleCN:T.tocTitleEN;
+  // cat filters
+  const cf=document.getElementById('catFilters');
+  cf.innerHTML='';
+  const ab=document.createElement('button');
+  ab.className='cat-btn active'; ab.dataset.cat='all';
+  ab.textContent=curLang===L.CN?T.allBtnCN:T.allBtnEN;
+  cf.appendChild(ab);
+  t.cats.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='cat-btn'; b.dataset.cat=c.id;
+    b.textContent=curLang===L.CN?c.labelCN:c.labelEN;
+    b.style.borderColor='rgba(255,255,255,0.08)';
+    cf.appendChild(b);
+  });
+  // sections
+  const sec=document.getElementById('sections');
+  sec.innerHTML='';
+  t.cats.forEach(c=>{
+    const s=document.createElement('div');
+    s.className='section';
+    s.id=`cat${c.id}`;
+    s.innerHTML=`
+      <div class="cat-header">
+        <div class="cat-icon" style="background:${c.color}18;color:${c.color}"><i class="fas ${c.icon}"></i></div>
+        <div class="cat-info">
+          <div class="cat-title"><span style="color:${c.color}">${c.id}.</span> ${curLang===L.CN?c.labelCN:c.labelEN}</div>
+          <div class="cat-desc">${c.subTopics.map(st=>`<span class="subpill">${st}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="cards" id="cards${c.id}"></div>`;
+    sec.appendChild(s);
+    const cc=document.getElementById(`cards${c.id}`);
+    const items=t.techs.filter(tech=>tech.categories.includes(c.id));
+    items.forEach(tech=>{
+      const card=document.createElement('div');
+      card.className='card';
+      card.dataset.cat=c.id;
+      card.dataset.techId=tech.id;
+      card.dataset.keywords=`${tech.name} ${tech.cn} ${tech.paper||''}`.toLowerCase();
+      const title=curLang===L.CN?tech.cn:tech.name;
+      const desc=curLang===L.CN?tech.desc_cn:tech.desc_en;
+      const hint=curLang===L.CN?T.clickCN:T.clickEN;
+      card.innerHTML=`
+        <div class="card-head">
+          <div class="card-title">${title}</div>
+          <span class="card-badge ${badgeClass(tech.badge)}">${tech.badge} ${tech.diff}</span>
+        </div>
+        <div class="card-desc">${desc.substring(0,95)}${desc.length>95?'…':''}</div>
+        <div class="card-ref">${(curLang===L.CN?tech.paper.split('—')[0]:tech.paper.split('—')[0]).trim()}</div>
+        <div class="card-hint"><i class="fas fa-external-link-alt" style="font-size:0.58rem"></i>${hint}</div>
+        <div class="card-tags">${tech.categories.map(cid=>`<span class="ctag">#${catLabel(cid).substring(0,7)}</span>`).join('')}</div>`;
+      card.addEventListener('click',()=>openModal(tech));
+      cc.appendChild(card);
+    });
+  });
+}
+
+// ── MODAL ──
+function openModal(tech){
+  const ov=document.getElementById('modalOverlay');
+  const mc=document.getElementById('modalContent');
+  const title=curLang===L.CN?tech.cn:tech.name;
+  const desc=curLang===L.CN?tech.desc_cn:tech.desc_en;
+  const paperParts=tech.paper.split('—');
+  const venue=paperParts.length>1?paperParts[1].trim():'';
+  mc.innerHTML=`
+    <span class="modal-badge ${badgeClass(tech.badge)}">${tech.badge} ${tech.diff}</span>
+    <div class="modal-ptitle">${title}</div>
+    <div class="modal-div"></div>
+    <div class="modal-label">${curLang===L.CN?'技术描述':'Description'}</div>
+    <div class="modal-text">${desc}</div>
+    <div class="modal-div"></div>
+    <div class="modal-label">${curLang===L.CN?'引用论文':'Citation'}</div>
+    <div class="modal-paper">
+      <div class="modal-pub">
+        <i class="fas fa-file-lines modal-picon"></i>
+        <div>
+          <div class="modal-pname">${tech.paper}</div>
+          ${venue?`<div class="modal-pvenue">${venue}</div>`:''}
+        </div>
+      </div>
+    </div>
+    ${tech.arxiv?`<a class="modal-btn" href="${tech.arxiv}" target="_blank"><i class="fas fa-external-link-alt"></i>${curLang===L.CN?'在 arXiv 打开':'Open on arXiv ↗'}</a>`:''}
+    <div class="modal-div"></div>
+    <div class="modal-label">${curLang===L.CN?'所属类别':'Categories'}</div>
+    <div class="modal-tags2">${tech.categories.map(cid=>`<span class="modal-ctag" style="border-left:2px solid ${TOPICS[curTopic].cats.find(c=>c.id===cid)?.color||'var(--accent)'}">${catLabel(cid)}</span>`).join('')}</div>
+    ${tech.bench&&tech.bench.length>0?`<div class="modal-div"></div><div class="modal-label">Benchmark</div><table class="bench-table"><thead><tr><th>模型</th><th>指标</th><th>数据集</th><th>结果</th><th>备注</th></tr></thead><tbody>${tech.bench.map(b=>`<tr><td>${b.m}</td><td>${b.metric}</td><td>${b.ds}</td><td>${b.v}</td><td>${b.n}</td></tr>`).join('')}</tbody></table>`:''}
+    <div class="modal-div"></div>
+    <div class="modal-label">${curLang===L.CN?'同类技术':'Related Techniques'}</div>
+    <div class="modal-related">${tech.categories.flatMap(cid=>{
+      const related=TOPICS[curTopic].techs.filter(t=>t.categories.includes(cid)&&t.id!==tech.id).slice(0,3);
+      return related.map(t=>`<div class="modal-rel-item" data-id="${t.id}"><span class="modal-rel-title">${curLang===L.CN?t.cn:t.name}</span><span class="modal-rel-badge ${badgeClass(t.badge)}">${t.badge}</span></div>`);
+    }).slice(0,6).join('')}${tech.categories.flatMap(cid=>TOPICS[curTopic].techs.filter(t=>t.categories.includes(cid)&&t.id!==tech.id)).length>6?`<div class="modal-rel-more">+${tech.categories.flatMap(cid=>TOPICS[curTopic].techs.filter(t=>t.categories.includes(cid)&&t.id!==tech.id)).length-6} ${curLang===L.CN?'项技术':'more'}</div>`:''}</div>
+    ${(()=>{
+      // Cross-topic references: find related techniques in other topics
+      const kw=`${tech.name} ${tech.cn} ${tech.desc_cn} ${tech.desc_en}`.toLowerCase();
+      const stopWords=new Set(['model','training','efficiency','method','for','the','and','with','based','using']);
+      const words=kw.split(/\W+/).filter(w=>w.length>3&&!stopWords.has(w));
+      const otherTopics=['vlm','vla','world'].filter(t=>t!==curTopic);
+      const crossRefs=[];
+      for(const ot of otherTopics){
+        const matches=TOPICS[ot].techs.filter(t=>{
+          const tkw=`${t.name} ${t.cn} ${t.desc_cn} ${t.desc_en}`.toLowerCase();
+          return words.some(w=>tkw.includes(w));
+        }).slice(0,4);
+        if(matches.length>0){
+          crossRefs.push({topic:ot,items:matches,label:TOPICS[ot].labelEN.split(' ')[0]});
+        }
+      }
+      if(crossRefs.length===0)return'';
+      return`<div class="modal-div"></div><div class="modal-label">${curLang===L.CN?'其他主题相关':'Also in Other Topics'}</div><div class="modal-cross-topics">${crossRefs.map(r=>`<div class="modal-cross-topic">
+        <div class="modal-cross-topic-label">${r.label}:</div>
+        ${r.items.map(t=>`<div class="modal-cross-item" data-topic="${r.topic}" data-id="${t.id}">
+          <span>${curLang===L.CN?t.cn:t.name}</span>
+          <span class="modal-cross-badge ${badgeClass(t.badge)}">${t.badge}</span>
+        </div>`).join('')}
+      </div>`).join('')}</div>`;
+    })()}
+  `;
+  ov.classList.add('open');
+  // Wire related tech clicks
+  mc.querySelectorAll('.modal-rel-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const id=parseInt(item.dataset.id);
+      const t=TOPICS[curTopic].techs.find(x=>x.id===id);
+      if(t){openModal(t);}
+    });
+  });
+  mc.querySelectorAll('.modal-cross-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const topic=item.dataset.topic;
+      const id=parseInt(item.dataset.id);
+      document.getElementById('modalOverlay').classList.remove('open');
+      switchTopic(topic);
+      setTimeout(()=>{
+        const card=document.querySelector(`.card[data-tech-id="${id}"]`);
+        if(card){card.click();}
+        else{openModal(TOPICS[topic].techs.find(t=>t.id===id));}
+      },80);
+    });
+  });
+}
+document.getElementById('modalClose').addEventListener('click',()=>document.getElementById('modalOverlay').classList.remove('open'));
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))document.getElementById('modalOverlay').classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modalOverlay').classList.remove('open');document.getElementById('tagModalOverlay').classList.remove('open');}});
+
+// ── BENCHMARK QUERY PARSING ──
+function parseBenchmarkQuery(q){
+  const m=q.match(/([a-z%\/\s]+)\s*(>=|<=|>|<)\s*([\d.]+)/i);
+  if(!m)return null;
+  return{metric:m[1].trim().toLowerCase(),op:m[2],val:parseFloat(m[3])};
+}
+function matchesBenchmark(tech,bq){
+  if(!bq||!tech.bench)return true;
+  for(const b of tech.bench){
+    const bm=b.metric.toLowerCase();
+    const contains=bm.includes(bq.metric)||bq.metric.includes(bm);
+    if(!contains)continue;
+    const numMatch=b.v.match(/([\d.]+)/);
+    if(!numMatch)continue;
+    const num=parseFloat(numMatch[1]);
+    let pass=false;
+    if(bq.op==='>')pass=num>bq.val;
+    else if(bq.op==='<')pass=num<bq.val;
+    else if(bq.op==='>=')pass=num>=bq.val;
+    else if(bq.op==='<=')pass=num<=bq.val;
+    if(pass)return true;
+  }
+  return false;
+}
+
+// ── DO FILTER ──
+function doFilter(){
+  if(curSubTab!=='main')return;
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const bq=parseBenchmarkQuery(q);
+  const cat=document.querySelector('.cat-btn.active')?.dataset.cat||'all';
+  const benchInd=document.getElementById('benchFilterInd');
+  benchInd.classList.toggle('active',!!bq);
+  benchInd.querySelector('span').textContent=bq?`${bq.metric} ${bq.op} ${bq.val}${bq.metric.includes('speedup')||bq.metric.includes('throughput')||bq.val>10?'x':'%'}`:'';
+  let visibleCount=0;
+  document.querySelectorAll('.card').forEach(card=>{
+    const id=parseInt(card.dataset.techId||0);
+    const tech=TOPICS[curTopic].techs.find(x=>x.id===id)||{};
+    const matchCat=cat==='all'||card.dataset.cat===cat;
+    const matchQ=!q||!bq?card.dataset.keywords.includes(q):true;
+    const matchBench=matchesBenchmark(tech,bq);
+    const visible=matchCat&&matchQ&&matchBench;
+    card.classList.toggle('hidden',!visible);
+    if(visible)visibleCount++;
+  });
+  document.querySelectorAll('.section').forEach(sec=>{
+    sec.classList.toggle('hidden',sec.querySelectorAll('.card:not(.hidden)').length===0);
+  });
+  // Update count in hero
+  const cntEl=document.getElementById('heroFiltered');
+  const hasFilter=q||bq||cat!=='all';
+  if(cntEl){
+    cntEl.style.display=hasFilter?'inline-flex':'none';
+    const span=cntEl.querySelector('span');
+    if(span) span.textContent=`${visibleCount} ${curLang===L.CN?'项可见':'visible'}`;
+  }
+  // No results state
+  const noRes=document.getElementById('noResults');
+  const sec=document.getElementById('sections');
+  if(noRes&&sec){
+    const totalCards=sec.querySelectorAll('.card').length;
+    noRes.style.display=visibleCount===0&&totalCards>0?'block':'none';
+    const noText=document.getElementById('noResultsText');
+    const noHint=document.getElementById('noResultsHint');
+    if(noText) noText.textContent=curLang===L.CN?'未找到匹配的技术':'No matching techniques found';
+    if(noHint) noHint.textContent=curLang===L.CN?'尝试调整搜索词或筛选条件':'Try adjusting your search or filter criteria';
+    sec.style.display=visibleCount===0&&totalCards>0?'none':'block';
+  }
+}
+
+const si=document.getElementById('searchInput');
+si.addEventListener('input',doFilter);
+
+// ── CAT FILTER BUTTONS ──
+document.addEventListener('click',e=>{
+  if(e.target.matches('.cat-btn')){
+    document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    doFilter();
+  }
+});
+
+// ── RENDER BENCHMARKS ──
+function renderBenchmarks(){
+  const t=TOPICS[curTopic];
+  const bt=document.getElementById('benchTabs');
+  bt.innerHTML='';
+  const bData=t.benches;
+  if(!bData||Object.keys(bData).length===0){
+    bt.innerHTML='<span style="color:var(--text3);font-size:0.8rem">暂无排行榜数据</span>';
+    document.getElementById('benchContent').innerHTML='';
+    return;
+  }
+  const firstCat=Object.keys(bData)[0];
+  activeBenchCat=parseInt(firstCat);
+  Object.entries(bData).forEach(([cid,bd])=>{
+    const btn=document.createElement('button');
+    btn.className='bench-tab'+(parseInt(cid)===activeBenchCat?' active':'');
+    btn.dataset.cat=cid;
+    btn.textContent=curLang===L.CN?bd.titleCN:bd.titleEN;
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.bench-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeBenchCat=parseInt(cid);
+      renderBenchContent();
+    });
+    bt.appendChild(btn);
+  });
+  renderBenchContent();
+}
+
+function renderBenchContent(){
+  const t=TOPICS[curTopic];
+  const bd=t.benches[activeBenchCat];
+  if(!bd){document.getElementById('benchContent').innerHTML='';return;}
+  const src=curLang===L.CN?T.benchSourceCN:T.benchSourceEN;
+  document.getElementById('benchContent').innerHTML=`
+    <div class="bench-source">📊 ${curLang===L.CN?'指标':'Metric'}: ${curLang===L.CN?bd.metricCN:bd.metricEN} · ${src}</div>
+    <div class="bar-chart">
+      ${bd.items.map(item=>{
+        const max=Math.max(...bd.items.map(i=>i.val));
+        const pct=(item.val/max*100).toFixed(1);
+        return`<div class="bar-row">
+          <div class="bar-label" title="${item.name}">${item.name}</div>
+          <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${item.color}"><span>${item.val}${bd.unit&&bd.unit!==''?' '+bd.unit:''}</span></div></div>
+          <div class="bar-value">${item.note}</div>
+        </div>`;}).join('')}
+    </div>`;
+}
+
+// ── RENDER TAGS ──
+function renderTags(){
+  const t=TOPICS[curTopic];
+  const tg=document.getElementById('tagsGrid');
+  tg.innerHTML='';
+  t.cats.forEach(c=>{
+    const items=t.techs.filter(tech=>tech.categories.includes(c.id));
+    if(items.length===0)return;
+    const card=document.createElement('div');
+    card.className='tag-card';
+    card.innerHTML=`
+      <div class="tag-card-head">
+        <span class="tag-name" style="color:${c.color}">${curLang===L.CN?c.labelCN:c.labelEN}</span>
+        <span class="tag-count">${items.length} ${curLang===L.CN?'项':'techs'}</span>
+      </div>
+      <div class="tag-items">${items.slice(0,6).map(tech=>`<span class="tag-item-chip">${curLang===L.CN?tech.cn:tech.name}</span>`).join('')}${items.length>6?`<span class="tag-item-chip" style="color:var(--accent)">+${items.length-6}</span>`:''}</div>
+    `;
+    card.addEventListener('click',()=>openTagModal(c,items));
+    tg.appendChild(card);
+  });
+}
+
+function openTagModal(cat,items){
+  const ov=document.getElementById('tagModalOverlay');
+  const mc=document.getElementById('tagModalContent');
+  mc.innerHTML=`
+    <h3 style="color:${cat.color}">${curLang===L.CN?cat.labelCN:cat.labelEN}</h3>
+    <div style="font-size:0.75rem;color:var(--text3);margin-bottom:14px">${items.length} ${curLang===L.CN?'项技术':'techniques'} · ${curLang===L.CN?'点击查看详情':'Click to view details'}</div>
+    <div class="tag-modal-list">
+      ${items.map(tech=>`<div class="tag-modal-item" data-id="${tech.id}">
+        <span style="font-weight:700">${curLang===L.CN?tech.cn:tech.name}</span>
+        <span style="color:var(--text3);font-size:0.7rem;margin-left:8px">${tech.name!==tech.cn?(curLang===L.CN?tech.name:tech.cn):''}</span>
+      </div>`).join('')}
+    </div>
+  `;
+  mc.querySelectorAll('.tag-modal-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const id=parseInt(item.dataset.id);
+      const tech=TOPICS[curTopic].techs.find(x=>x.id===id);
+      if(tech){closeTagModal();switchSubTab('main');openModal(tech);}
+    });
+  });
+  ov.classList.add('open');
+}
+function closeTagModal(){document.getElementById('tagModalOverlay').classList.remove('open');}
+document.getElementById('tagModalClose').addEventListener('click',closeTagModal);
+document.getElementById('tagModalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('tagModalOverlay'))closeTagModal();});
+
+// ── SUB-TAB SWITCHING ──
+function switchSubTab(tab){
+  curSubTab=tab;
+  document.getElementById('sections').style.display=tab==='main'?'block':'none';
+  document.getElementById('toc').style.display=tab==='main'?'block':'none';
+  document.getElementById('benchmarks-page').classList.toggle('active',tab==='bench');
+  document.getElementById('tags-page').classList.toggle('active',tab==='tags');
+  document.querySelectorAll('.subtab-btn').forEach(b=>b.classList.toggle('active',b.dataset.subtab===tab));
+  if(tab==='bench')renderBenchmarks();
+  if(tab==='tags')renderTags();
+}
+
+document.querySelectorAll('.subtab-btn').forEach(b=>{
+  b.addEventListener('click',()=>switchSubTab(b.dataset.subtab));
+});
+
+// ── TOPIC SWITCHING ──
+function switchTopic(topic){
+  curTopic=topic;
+  curSubTab='main';
+  document.querySelectorAll('.topic-tab').forEach(t=>t.classList.toggle('active',t.dataset.topic===topic));
+  updateHero();
+  updateSearchPH();
+  buildPage();
+  document.getElementById('sections').style.display='block';
+  document.getElementById('toc').style.display='block';
+  document.getElementById('benchmarks-page').classList.remove('active');
+  document.getElementById('tags-page').classList.remove('active');
+  document.querySelectorAll('.subtab-btn').forEach(b=>b.classList.toggle('active',b.dataset.subtab==='main'));
+  si.value='';
+  doFilter();
+}
+
+document.querySelectorAll('.topic-tab').forEach(t=>{
+  t.addEventListener('click',()=>switchTopic(t.dataset.topic));
+});
+
+// ── LANG SWITCH ──
+document.getElementById('langCN').addEventListener('click',()=>{
+  curLang=L.CN;
+  document.getElementById('langCN').classList.add('active');
+  document.getElementById('langEN').classList.remove('active');
+  document.getElementById('subtabMainLabel').textContent=T.tabMainCN;
+  document.getElementById('subtabBenchLabel').textContent=T.benchTabCN;
+  document.getElementById('subtabTagsLabel').textContent=T.tagsTabCN;
+  document.getElementById('tagSearchInput').placeholder=T.tagSearchPHCN;
+  updateHero(); updateSearchPH();
+  buildPage();
+  if(curSubTab==='bench')renderBenchmarks();
+  if(curSubTab==='tags')renderTags();
+  doFilter();
+});
+document.getElementById('langEN').addEventListener('click',()=>{
+  curLang=L.EN;
+  document.getElementById('langEN').classList.add('active');
+  document.getElementById('langCN').classList.remove('active');
+  document.getElementById('subtabMainLabel').textContent=T.tabMainEN;
+  document.getElementById('subtabBenchLabel').textContent=T.benchTabEN;
+  document.getElementById('subtabTagsLabel').textContent=T.tagsTabEN;
+  document.getElementById('tagSearchInput').placeholder=T.tagSearchPHEN;
+  updateHero(); updateSearchPH();
+  buildPage();
+  if(curSubTab==='bench')renderBenchmarks();
+  if(curSubTab==='tags')renderTags();
+  doFilter();
+});
+
+// ── TAG SEARCH ──
+let tagSearchQ='';
+document.getElementById('tagSearchInput').addEventListener('input',(e)=>{
+  tagSearchQ=e.target.value.toLowerCase().trim();
+  renderTagsFiltered();
+});
+function renderTagsFiltered(){
+  if(tagSearchQ){
+    // Filter tags by search query
+    const t=TOPICS[curTopic];
+    const tg=document.getElementById('tagsGrid');
+    const query=tagSearchQ;
+    const filtered=t.cats.filter(c=>{
+      const nameCN=c.labelCN.toLowerCase();
+      const nameEN=c.labelEN.toLowerCase();
+      return nameCN.includes(query)||nameEN.includes(query)||
+        t.techs.some(tech=>tech.categories.includes(c.id)&&
+        (tech.name.toLowerCase().includes(query)||tech.cn.toLowerCase().includes(query)));
+    });
+    tg.innerHTML='';
+    filtered.forEach(c=>{
+      const items=t.techs.filter(tech=>tech.categories.includes(c.id)&&
+        (tech.name.toLowerCase().includes(query)||tech.cn.toLowerCase().includes(query)));
+      const card=document.createElement('div');
+      card.className='tag-card';
+      card.innerHTML=`
+        <div class="tag-card-head">
+          <span class="tag-name" style="color:${c.color}">${curLang===L.CN?c.labelCN:c.labelEN}</span>
+          <span class="tag-count">${items.length} ${curLang===L.CN?'项':'techs'}</span>
+        </div>
+        <div class="tag-items">${items.slice(0,8).map(tech=>`<span class="tag-item-chip">${curLang===L.CN?tech.cn:tech.name}</span>`).join('')}${items.length>8?`<span class="tag-item-chip" style="color:var(--accent)">+${items.length-8}</span>`:''}</div>
+      `;
+      card.addEventListener('click',()=>openTagModal(c,items));
+      tg.appendChild(card);
+    });
+  } else {
+    renderTags();
+  }
+}
+
+// ── INIT ──
+buildPage();
+updateHero();
+updateSearchPH();
+document.getElementById('tagSearchInput').placeholder=T.tagSearchPHCN;
+
+// ── BACK TO TOP ──
+window.addEventListener('scroll',()=>{
+  const btn=document.getElementById('backToTop');
+  btn.style.display=window.scrollY>400?'flex':'none';
+});
+document.getElementById('backToTop').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
